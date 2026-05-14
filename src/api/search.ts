@@ -41,6 +41,7 @@ export function buildSearchRequest(
   }
 
   if (filters.order_by) {
+    // API expects "field.asc" or "field.desc" dot notation
     req.order_by = filters.order_by
   }
 

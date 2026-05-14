@@ -1,6 +1,6 @@
 import type { EtfFilters } from '@/types/etf'
 import { FilterDropdown } from './FilterDropdown'
-import { SortSelect } from './SortSelect'
+import { SortDropdown } from './SortDropdown'
 
 export const ASSET_CATEGORIES = [
   'Australian Equities',
@@ -38,7 +38,7 @@ export function FilterBar({ filters, onChange }: Props) {
         onChange={(management_approach) => onChange({ ...filters, management_approach })}
       />
       <div className="ml-auto">
-        <SortSelect
+        <SortDropdown
           value={filters.order_by}
           onChange={(order_by) => onChange({ ...filters, order_by })}
         />

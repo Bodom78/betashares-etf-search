@@ -99,6 +99,7 @@ export function SearchPanel({
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
             onSelect={handleSelect}
+
           />
         )}
       </div>
