@@ -54,7 +54,7 @@ export function SearchPanel({
 
       <FilterBar filters={filters} onChange={onFiltersChange} />
 
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
         {!hasQuery && !isLoading ? (
           <DefaultState />
         ) : isEmpty ? (

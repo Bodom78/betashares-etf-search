@@ -36,7 +36,7 @@ export function SearchDialog({
         className="
           p-0 gap-0 overflow-hidden
           w-screen h-screen max-w-none rounded-none
-          sm:w-full sm:h-auto sm:max-w-3xl sm:max-h-[80vh] sm:rounded-2xl
+          sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-2xl
         "
       >
         <SearchPanel
