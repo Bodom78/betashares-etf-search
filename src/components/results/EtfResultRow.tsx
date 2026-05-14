@@ -1,4 +1,3 @@
-import { ChevronRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { formatReturn, returnColor, formatFee } from '@/lib/format'
 import type { EtfResult } from '@/types/etf'
@@ -11,6 +10,7 @@ interface Props {
 
 export function EtfResultRow({ result, onSelect }: Props) {
   const category = result.asset_categories?.[0] ?? null
+  const categoryLine = [category, result.management_approach].filter(Boolean).join(' · ')
 
   return (
     <button
@@ -24,32 +24,22 @@ export function EtfResultRow({ result, onSelect }: Props) {
 
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{result.display_name}</p>
-        {category && (
-          <p className="text-xs text-muted-foreground truncate">{category}</p>
+        {categoryLine && (
+          <p className="text-xs text-muted-foreground truncate">{categoryLine}</p>
         )}
       </div>
 
       <div className="hidden sm:flex items-center gap-4 shrink-0">
-        <div className="text-right w-20">
-          <p className="text-xs text-muted-foreground">1Y Return</p>
-          <p className={cn('text-sm font-medium', returnColor(result.one_year_return))}>
-            {formatReturn(result.one_year_return)}
-          </p>
-        </div>
-
-        <div className="text-right w-16">
-          <p className="text-xs text-muted-foreground">Fee</p>
-          <p className="text-sm font-medium">{formatFee(result.management_fee)}</p>
-        </div>
-
-        {result.management_approach && (
-          <Badge variant="secondary" className="text-xs shrink-0">
-            {result.management_approach}
-          </Badge>
-        )}
+        <p className={cn('text-sm font-medium text-right w-20', returnColor(result.one_year_return))}>
+          {formatReturn(result.one_year_return)}
+        </p>
+        <p className={cn('text-sm font-medium text-right w-20', returnColor(result.five_year_return))}>
+          {formatReturn(result.five_year_return)}
+        </p>
+        <p className="text-sm font-medium text-right w-16">
+          {formatFee(result.management_fee)}
+        </p>
       </div>
-
-      <ChevronRight className="shrink-0 h-4 w-4 text-muted-foreground" />
     </button>
   )
 }

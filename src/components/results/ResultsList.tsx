@@ -11,6 +11,37 @@ const OVERSCAN = 5
 const SKELETON_COUNT = 6
 const PREFETCH_THRESHOLD = 5
 
+const HEADER_CLASSES =
+  'flex items-center gap-3 px-4 py-1.5 border-b border-border text-xs text-muted-foreground'
+
+function StickyHeader() {
+  return (
+    <div className={`sticky top-0 z-10 bg-background ${HEADER_CLASSES}`}>
+      <div className="w-16 shrink-0">ASX Code</div>
+      <div className="flex-1 min-w-0">Fund</div>
+      <div className="hidden sm:flex items-center gap-4 shrink-0">
+        <div className="text-right w-20">1Y Return</div>
+        <div className="text-right w-20">5Y Return</div>
+        <div className="text-right w-16">Fee</div>
+      </div>
+    </div>
+  )
+}
+
+function StaticHeader() {
+  return (
+    <div className={`shrink-0 ${HEADER_CLASSES}`}>
+      <div className="w-16 shrink-0">ASX Code</div>
+      <div className="flex-1 min-w-0">Fund</div>
+      <div className="hidden sm:flex items-center gap-4 shrink-0">
+        <div className="text-right w-20">1Y Return</div>
+        <div className="text-right w-20">5Y Return</div>
+        <div className="text-right w-16">Fee</div>
+      </div>
+    </div>
+  )
+}
+
 type RowItem = EtfResult | '__skeleton__'
 
 interface Props {
@@ -57,7 +88,8 @@ export function ResultsList({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1 min-h-0">
+        <StaticHeader />
         {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
           <EtfRowSkeleton key={i} />
         ))}
@@ -67,6 +99,7 @@ export function ResultsList({
 
   return (
     <div ref={parentRef} className="overflow-y-auto flex-1">
+      <StickyHeader />
       <div
         style={{ height: virtualizer.getTotalSize() }}
         className="relative w-full"

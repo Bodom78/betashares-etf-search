@@ -11,15 +11,9 @@ export function EtfRowSkeleton() {
       </div>
 
       <div className="hidden sm:flex items-center gap-4 shrink-0">
-        <div className="space-y-1.5 w-20">
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-4 w-3/4 ml-auto" />
-        </div>
-        <div className="space-y-1.5 w-16">
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-4 w-3/4 ml-auto" />
-        </div>
-        <Skeleton className="h-5 w-14 rounded-full" />
+        <Skeleton className="h-4 w-12 ml-auto" />
+        <Skeleton className="h-4 w-12 ml-auto" />
+        <Skeleton className="h-4 w-10 ml-auto" />
       </div>
     </div>
   )
