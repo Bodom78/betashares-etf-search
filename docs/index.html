@@ -427,7 +427,10 @@
               <td><code>string</code></td>
               <td>Betashares API</td>
               <td>
-                Override the search endpoint. Required when embedding on external domains (point to a CORS proxy).
+                Override the search endpoint. Required when embedding on external domains - the Betashares search API
+                does not include CORS headers, so a proxy is needed. The included Cloudflare Worker
+                (<code>proxy/worker.js</code>) forwards requests unchanged and adds the required
+                <code>Access-Control-Allow-Origin</code> header.
               </td>
             </tr>
             <tr>
@@ -471,8 +474,14 @@
             <tr>
               <td><code>placeholder</code></td>
               <td><code>string</code></td>
-              <td>"Search ETFs…"</td>
+              <td>"Search by ASX code, fund name or phrase"</td>
               <td>Custom placeholder text for the search input.</td>
+            </tr>
+            <tr>
+              <td><code>max-width</code></td>
+              <td><code>string</code></td>
+              <td>-</td>
+              <td>Max width of the search trigger. Any valid CSS value. Only applies when <code>variant="search"</code>.</td>
             </tr>
             <tr>
               <td><code>button-text</code></td>

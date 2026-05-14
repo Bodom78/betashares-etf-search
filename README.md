@@ -186,9 +186,13 @@ Radix Dialog and DropdownMenu portal their floating content to `document.body` b
 
 When multiple `<betashares-etf-search>` elements exist on the same page, only one dialog should open per keypress. A module-level handler registry (`_ctrlKHandlers`) ensures a single `window` listener is added; only the first registered handler is invoked.
 
+### CORS proxy
+
+The Betashares search API (`search.betashares.services`) does not include CORS headers, so browsers block direct requests from any external origin. A minimal Cloudflare Worker (`proxy/worker.js`) sits in front of the API, forwards the request body unchanged, and attaches the required `Access-Control-Allow-Origin` header. This is what the `api-url` attribute points to when the component is embedded outside of betashares.com.au.
+
 ### Pagination
 
-The API uses 0-based `from` offsets with a `size` page limit. TanStack Query's `useInfiniteQuery` handles pagination; the virtualised list triggers the next page fetch when the user scrolls within 5 rows of the end.
+The API uses 0-based `from` offsets with a `size` page limit. TanStack Query's `useInfiniteQuery` handles pagination; a scroll listener on the results container triggers the next page fetch when the user scrolls near the end of the loaded results.
 
 ---
 
