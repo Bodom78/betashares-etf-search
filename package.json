@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "build:wc": "tsc --noEmit && vite build --config vite.wc.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.2.4",
