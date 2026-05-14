@@ -122,6 +122,12 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
+[data-slot="dialog-overlay"] {
+  background-color: color-mix(in oklch, var(--background) 85%, transparent);
+  background-image: linear-gradient(135deg, color-mix(in oklch, var(--primary) 12%, transparent) 0%, transparent 60%);
+  backdrop-filter: none;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
