@@ -5,14 +5,23 @@ import { SortDropdown } from "./SortDropdown"
 export const ASSET_CATEGORIES = [
   "Australian Equities",
   "International Equities",
+  "International Equities - US",
+  "International Equities - Asia",
+  "International Equities - Emerging Markets",
+  "International - Countries & Regions",
   "Australian Bonds",
   "International Bonds",
   "Cash",
-  "Commodities",
-  "Property",
-  "Multi Asset",
-  "Alternatives",
   "Currency",
+  "Gold & Commodities",
+  "Energy & Materials",
+  "Property & Infrastructure",
+  "Diversified",
+  "Technology",
+  "Healthcare",
+  "Financial",
+  "Thematic",
+  "Shorts Funds & Geared Funds",
 ]
 
 export const MANAGEMENT_APPROACHES = ["Active", "Passive"]
@@ -30,6 +39,7 @@ export function FilterBar({ filters, onChange }: Props) {
         options={ASSET_CATEGORIES}
         selected={filters.asset_categories}
         onChange={(asset_categories) => onChange({ ...filters, asset_categories })}
+        contentClassName="min-w-72"
       />
       <FilterDropdown
         label="Approach"

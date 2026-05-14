@@ -12,13 +12,14 @@ interface Props {
   options: string[]
   selected: string[]
   onChange: (selected: string[]) => void
+  contentClassName?: string
 }
 
 function toggle(arr: string[], value: string): string[] {
   return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value]
 }
 
-export function FilterDropdown({ label, options, selected, onChange }: Props) {
+export function FilterDropdown({ label, options, selected, onChange, contentClassName }: Props) {
   const hasSelection = selected.length > 0
   const triggerLabel = hasSelection ? `${label} · ${selected.length}` : label
 
@@ -34,7 +35,7 @@ export function FilterDropdown({ label, options, selected, onChange }: Props) {
           <ChevronDownIcon className="size-3 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="min-w-48">
+      <DropdownMenuContent align="start" className={`min-w-48 ${contentClassName ?? ''}`}>
         {options.map((option) => (
           <DropdownMenuCheckboxItem
             key={option}
