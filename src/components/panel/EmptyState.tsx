@@ -10,9 +10,7 @@ export function EmptyState({ query }: Props) {
       <div className="rounded-full bg-muted p-4">
         <SearchX className="h-6 w-6" />
       </div>
-      <p className="text-sm">
-        No ETFs found{query ? ` for "${query}"` : ''}
-      </p>
+      <p className="text-sm">No funds found matching your search.</p>
     </div>
   )
 }

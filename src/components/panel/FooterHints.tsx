@@ -8,26 +8,26 @@ export function FooterHints({ total, mode = 'results', showEscClose = true }: Pr
   return (
     <div className="hidden sm:flex items-center justify-between border-t border-border px-4 py-2 text-xs text-muted-foreground shrink-0">
       {mode === 'detail' ? (
-        <span>
+        <span className="flex items-center gap-1.5">
           <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono">esc</kbd>
-          {' '}Close
+          Close
         </span>
       ) : (
         <>
           <div className="flex items-center gap-4">
-            <span>
+            <span className="flex items-center gap-1.5">
               <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono">↩</kbd>
-              {' '}Select
+              Select
             </span>
             {showEscClose && (
-              <span>
+              <span className="flex items-center gap-1.5">
                 <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono">esc</kbd>
-                {' '}Close
+                Close
               </span>
             )}
           </div>
           {total !== null && (
-            <span>{total.toLocaleString()} ETFs found</span>
+            <span>{total.toLocaleString()} funds found</span>
           )}
         </>
       )}

@@ -8,7 +8,7 @@ interface Props {
 
 export function SearchTrigger({
   onClick,
-  placeholder = 'Search ETFs…',
+  placeholder = 'Search by ASX code, fund name or phrase',
   maxWidth,
 }: Props) {
   return (
@@ -30,6 +30,7 @@ export function SearchTrigger({
         <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-xs leading-none">
           Ctrl
         </kbd>
+        <span className="text-xs">+</span>
         <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-xs leading-none">
           K
         </kbd>

@@ -35,8 +35,8 @@ export function SearchDialog({
         showCloseButton={false}
         className="
           flex flex-col p-0 gap-0 overflow-hidden
-          w-screen h-screen max-w-none rounded-none
-          sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-md
+          w-screen h-screen max-w-none rounded-none shadow-none
+          sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-md sm:shadow-lg
         "
       >
         <SearchPanel

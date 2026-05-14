@@ -18,7 +18,7 @@ export function InlineWrapper({
 }: Props) {
   return (
     <div
-      className="border border-border rounded-xl overflow-hidden flex flex-col bg-card"
+      className="border border-border rounded-md overflow-hidden flex flex-col bg-card shadow-none"
       style={{ height }}
     >
       <SearchPanel

@@ -13,7 +13,7 @@ export function SearchInputRow({
   value,
   onChange,
   autoFocus = false,
-  placeholder = 'Search ETFs by name, ticker, or category…',
+  placeholder = 'Search by ASX code, fund name or phrase',
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
 

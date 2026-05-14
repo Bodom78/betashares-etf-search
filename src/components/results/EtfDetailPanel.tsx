@@ -1,8 +1,9 @@
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, TrendingUp, TrendingDown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import {
-  formatReturn,
+  formatReturnAbs,
   returnColor,
+  returnDirection,
   formatFee,
   formatFundSize,
   formatInceptionDate,
@@ -13,7 +14,7 @@ import { cn } from '@/lib/utils'
 
 interface StatProps {
   label: string
-  value: string
+  value: React.ReactNode
   className?: string
 }
 
@@ -23,6 +24,22 @@ function Stat({ label, value, className }: StatProps) {
       <span className="text-xs text-muted-foreground">{label}</span>
       <span className={cn('text-sm font-medium', className)}>{value}</span>
     </div>
+  )
+}
+
+function ReturnValue({ value }: { value: EtfResult['one_year_return'] }) {
+  const formatted = formatReturnAbs(value)
+  const color = returnColor(value)
+  const dir = returnDirection(value)
+
+  if (formatted === '—') return <span className="text-muted-foreground">—</span>
+
+  return (
+    <span className={cn('inline-flex items-center gap-1', color)}>
+      {dir === 'up' && <TrendingUp className="size-3.5 shrink-0" />}
+      {dir === 'down' && <TrendingDown className="size-3.5 shrink-0" />}
+      {formatted}
+    </span>
   )
 }
 
@@ -65,16 +82,8 @@ export function EtfDetailPanel({ result, onBack }: Props) {
       <div className="grid grid-cols-3 gap-x-6 gap-y-5 px-4 py-5 border-b border-border">
         <Stat label="Fund Size" value={formatFundSize(result.fund_size as string | undefined)} />
         <Stat label="Mgmt Fee" value={formatFee(result.management_fee)} />
-        <Stat
-          label="1Y Return"
-          value={formatReturn(result.one_year_return)}
-          className={returnColor(result.one_year_return)}
-        />
-        <Stat
-          label="5Y Return (ann.)"
-          value={formatReturn(result.five_year_return)}
-          className={returnColor(result.five_year_return)}
-        />
+        <Stat label="1Y Return" value={<ReturnValue value={result.one_year_return} />} />
+        <Stat label="5Y Return (ann.)" value={<ReturnValue value={result.five_year_return} />} />
         <Stat
           label="Dist. Yield"
           value={formatFee(result.trailing_12m_dividend_yield as string | undefined)}
