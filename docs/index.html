@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BetaShares ETF Search — Web Component</title>
+  <script src="./dist/etf-search.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page-bg: #ffffff;
+      --page-bg-subtle: #f8f9fa;
+      --page-border: #e5e7eb;
+      --page-text: #111827;
+      --page-text-muted: #6b7280;
+      --page-primary: #111827;
+      --page-accent: #2563eb;
+      --page-code-bg: #f3f4f6;
+      --page-radius: 10px;
+      --page-max-w: 860px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg);
+      color: var(--page-text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    a { color: var(--page-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--page-border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: var(--page-max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .logo { font-weight: 700; font-size: 15px; color: var(--page-text); }
+    .logo span { font-weight: 400; color: var(--page-text-muted); margin-left: 6px; font-size: 13px; }
+    nav { margin-left: auto; display: flex; gap: 1.5rem; font-size: 14px; }
+
+    /* ── Layout ── */
+    main { max-width: var(--page-max-w); margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: var(--page-text-muted);
+      font-size: 1.1rem;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+    }
+    .badge-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--page-border);
+      font-size: 12px;
+      color: var(--page-text-muted);
+    }
+    .install-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--page-primary);
+      color: #fff;
+      border-radius: var(--page-radius);
+      padding: 0.75rem 1.25rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 2px 8px;
+      font-size: 12px;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Sections ── */
+    section { padding: 3.5rem 0; border-top: 1px solid var(--page-border); }
+    section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    section .lead {
+      color: var(--page-text-muted);
+      margin-bottom: 2rem;
+      font-size: 14px;
+    }
+    .demo-box {
+      background: var(--page-bg-subtle);
+      border: 1px solid var(--page-border);
+      border-radius: var(--page-radius);
+      padding: 2rem;
+      margin-bottom: 1rem;
+    }
+    .demo-box + .demo-box { margin-top: 1rem; }
+    .demo-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--page-text-muted);
+      margin-bottom: 1rem;
+    }
+    pre {
+      background: var(--page-code-bg);
+      border: 1px solid var(--page-border);
+      border-radius: var(--page-radius);
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: var(--page-text);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Config table ── */
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .config-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--page-bg-subtle);
+      border: 1px solid var(--page-border);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--page-text-muted);
+    }
+    .config-table td {
+      padding: 10px 12px;
+      border: 1px solid var(--page-border);
+      vertical-align: top;
+    }
+    .config-table tr:hover td { background: var(--page-bg-subtle); }
+    code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      background: var(--page-code-bg);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--page-border);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--page-text-muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="logo">BetaShares <span>ETF Search</span></span>
+    <nav>
+      <a href="#variants">Variants</a>
+      <a href="#configuration">Configuration</a>
+      <a href="https://github.com/fadymaher24/betashares-etf-search">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>ETF Search<br>as a Web Component</h1>
+    <p>Drop one script tag into any page. Search, filter, and explore BetaShares ETFs instantly.</p>
+    <div class="badge-row">
+      <span class="badge">⚡ TanStack Query</span>
+      <span class="badge">🔄 Virtual scroll</span>
+      <span class="badge">🎨 ShadCN UI</span>
+      <span class="badge">📦 Self-contained</span>
+    </div>
+    <div class="install-box">
+      <span>&lt;script src="etf-search.js"&gt;&lt;/script&gt;</span>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText('<script src=\'etf-search.js\'></script>');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Variant 1: Search -->
+  <section id="variants">
+    <h2>Variant 1 — Search Trigger</h2>
+    <p class="lead">An input-style button that opens a full-screen dialog. Press <kbd>Ctrl+K</kbd> to open from anywhere on the page.</p>
+
+    <div class="demo-box">
+      <div class="demo-label">Live demo</div>
+      <betashares-etf-search
+        api-url="https://betashares-search-proxy.betashares.workers.dev"
+      ></betashares-etf-search>
+    </div>
+
+    <pre>&lt;betashares-etf-search&gt;&lt;/betashares-etf-search&gt;</pre>
+  </section>
+
+  <!-- Variant 2: Button -->
+  <section>
+    <h2>Variant 2 — Button Trigger</h2>
+    <p class="lead">A standard button that opens the search dialog. Accepts any style variant and can pre-apply filters on open.</p>
+
+    <div class="demo-box">
+      <div class="demo-label">Default button</div>
+      <betashares-etf-search
+        variant="button"
+        button-text="Search ETFs"
+        api-url="https://betashares-search-proxy.betashares.workers.dev"
+      ></betashares-etf-search>
+    </div>
+
+    <div class="demo-box">
+      <div class="demo-label">Outline — pre-filtered to Australian Equities</div>
+      <betashares-etf-search
+        variant="button"
+        button-text="Browse Australian Equities"
+        initial-categories="Australian Equities"
+        api-url="https://betashares-search-proxy.betashares.workers.dev"
+      ></betashares-etf-search>
+    </div>
+
+    <div class="demo-box">
+      <div class="demo-label">Pre-sorted by 1Y Return</div>
+      <betashares-etf-search
+        variant="button"
+        button-text="Top Performers"
+        initial-order-by="one_year_return_desc"
+        api-url="https://betashares-search-proxy.betashares.workers.dev"
+      ></betashares-etf-search>
+    </div>
+
+    <pre>&lt;betashares-etf-search
+  variant="button"
+  button-text="Browse Australian Equities"
+  initial-categories="Australian Equities"
+  api-url="https://betashares-search-proxy.betashares.workers.dev"
+&gt;&lt;/betashares-etf-search&gt;</pre>
+  </section>
+
+  <!-- Variant 3: Inline -->
+  <section>
+    <h2>Variant 3 — Inline Panel</h2>
+    <p class="lead">Renders the search panel directly in the page flow. No trigger, no overlay — ideal for dedicated search pages.</p>
+
+    <div class="demo-box">
+      <div class="demo-label">Live demo — 550px</div>
+      <betashares-etf-search
+        variant="inline"
+        height="550px"
+        api-url="https://betashares-search-proxy.betashares.workers.dev"
+      ></betashares-etf-search>
+    </div>
+
+    <pre>&lt;betashares-etf-search
+  variant="inline"
+  height="550px"
+  api-url="https://betashares-search-proxy.betashares.workers.dev"
+&gt;&lt;/betashares-etf-search&gt;</pre>
+  </section>
+
+  <!-- Configuration -->
+  <section id="configuration">
+    <h2>Configuration</h2>
+    <p class="lead">All attributes are optional. The component works with zero configuration using sensible defaults.</p>
+
+    <table class="config-table">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>variant</code></td>
+          <td><code>"search" | "button" | "inline"</code></td>
+          <td><code>"search"</code></td>
+          <td>Controls which surface is rendered.</td>
+        </tr>
+        <tr>
+          <td><code>api-url</code></td>
+          <td><code>string</code></td>
+          <td>BetaShares API</td>
+          <td>Override the search endpoint. Required when embedding on external domains (point to a CORS proxy).</td>
+        </tr>
+        <tr>
+          <td><code>initial-query</code></td>
+          <td><code>string</code></td>
+          <td>—</td>
+          <td>Pre-fills the search input when the dialog opens.</td>
+        </tr>
+        <tr>
+          <td><code>initial-categories</code></td>
+          <td><code>string</code></td>
+          <td>—</td>
+          <td>Comma-separated list of asset categories to pre-activate. E.g. <code>"Australian Equities,Cash"</code>.</td>
+        </tr>
+        <tr>
+          <td><code>initial-approach</code></td>
+          <td><code>string</code></td>
+          <td>—</td>
+          <td>Comma-separated management approaches to pre-activate. E.g. <code>"Active"</code>.</td>
+        </tr>
+        <tr>
+          <td><code>initial-order-by</code></td>
+          <td><code>string</code></td>
+          <td>—</td>
+          <td>Pre-selected sort. One of <code>one_year_return_desc</code>, <code>one_year_return_asc</code>, <code>management_fee_asc</code>, <code>display_name_asc</code>.</td>
+        </tr>
+        <tr>
+          <td><code>placeholder</code></td>
+          <td><code>string</code></td>
+          <td>"Search ETFs…"</td>
+          <td>Custom placeholder text for the search input.</td>
+        </tr>
+        <tr>
+          <td><code>button-text</code></td>
+          <td><code>string</code></td>
+          <td>"Search ETFs"</td>
+          <td>Label for the trigger button. Only applies when <code>variant="button"</code>.</td>
+        </tr>
+        <tr>
+          <td><code>height</code></td>
+          <td><code>string</code></td>
+          <td>"550px"</td>
+          <td>Height of the inline panel. Any valid CSS value. Only applies when <code>variant="inline"</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Built as a technical assessment for BetaShares &mdash;
+  <a href="https://github.com/fadymaher24/betashares-etf-search">View on GitHub</a>
+</footer>
+
+</body>
+</html>

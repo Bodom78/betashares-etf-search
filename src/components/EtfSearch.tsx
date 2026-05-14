@@ -1,12 +1,36 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import type { EtfFilters, EtfResult, EtfVariant } from '@/types/etf'
 import { DEFAULT_FILTERS } from '@/types/etf'
 import { ApiUrlContext } from '@/context/ApiUrlContext'
+import { PortalContext } from '@/context/PortalContext'
 import { SEARCH_API_URL } from '@/config'
 import { SearchDialog } from './search/SearchDialog'
 import { SearchTrigger } from './search/SearchTrigger'
 import { ButtonTrigger } from './search/ButtonTrigger'
 import { InlineWrapper } from './search/InlineWrapper'
+
+// Module-level singleton so only one dialog opens per Ctrl+K press,
+// regardless of how many component instances exist on the page.
+type KHandler = () => void
+const _ctrlKHandlers: KHandler[] = []
+let _ctrlKListenerAdded = false
+
+function addCtrlKHandler(fn: KHandler): () => void {
+  if (!_ctrlKListenerAdded) {
+    _ctrlKListenerAdded = true
+    window.addEventListener('keydown', (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        _ctrlKHandlers[0]?.()
+      }
+    })
+  }
+  _ctrlKHandlers.push(fn)
+  return () => {
+    const i = _ctrlKHandlers.indexOf(fn)
+    if (i !== -1) _ctrlKHandlers.splice(i, 1)
+  }
+}
 
 interface Props {
   variant?: EtfVariant
@@ -24,6 +48,7 @@ interface Props {
   onSelect?: (result: EtfResult) => void
   open?: boolean
   filters?: EtfFilters
+  portalContainer?: HTMLElement | null
 }
 
 function buildInitialFilters(props: Props): EtfFilters {
@@ -46,6 +71,7 @@ export function EtfSearch(props: Props) {
     onFiltersChange,
     onOpenChange,
     onSelect,
+    portalContainer = null,
   } = props
 
   const isControlled = props.open !== undefined && props.filters !== undefined
@@ -78,17 +104,13 @@ export function EtfSearch(props: Props) {
     [isControlled, onFiltersChange],
   )
 
+  const handleOpenChangeRef = useRef(handleOpenChange)
+  handleOpenChangeRef.current = handleOpenChange
+
   useEffect(() => {
     if (variant === 'inline') return
-    const handler = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault()
-        handleOpenChange(true)
-      }
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [variant, handleOpenChange])
+    return addCtrlKHandler(() => handleOpenChangeRef.current(true))
+  }, [variant])
 
   const inner =
     variant === 'inline' ? (
@@ -126,7 +148,9 @@ export function EtfSearch(props: Props) {
 
   return (
     <ApiUrlContext.Provider value={apiUrl}>
-      {inner}
+      <PortalContext.Provider value={portalContainer}>
+        {inner}
+      </PortalContext.Provider>
     </ApiUrlContext.Provider>
   )
 }
