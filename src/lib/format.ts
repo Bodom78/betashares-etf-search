@@ -4,6 +4,20 @@ export function formatReturn(v: string | number | null | undefined): string {
   return (n >= 0 ? '+' : '') + n.toFixed(2) + '%'
 }
 
+export function formatReturnAbs(v: string | number | null | undefined): string {
+  const n = typeof v === 'string' ? parseFloat(v) : v
+  if (n == null || isNaN(n)) return '—'
+  return Math.abs(n).toFixed(2) + '%'
+}
+
+export function returnDirection(v: string | number | null | undefined): 'up' | 'down' | null {
+  const n = typeof v === 'string' ? parseFloat(v) : v
+  if (n == null || isNaN(n)) return null
+  if (n > 0) return 'up'
+  if (n < 0) return 'down'
+  return null
+}
+
 export function returnColor(v: string | number | null | undefined): string {
   const n = typeof v === 'string' ? parseFloat(v) : v
   if (n == null || isNaN(n)) return 'text-muted-foreground'

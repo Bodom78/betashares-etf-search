@@ -1,11 +1,30 @@
+import { TrendingUp, TrendingDown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { formatReturn, returnColor, formatFee } from '@/lib/format'
+import { formatReturnAbs, formatFee, returnColor, returnDirection } from '@/lib/format'
 import type { EtfResult } from '@/types/etf'
 import { cn } from '@/lib/utils'
 
 interface Props {
   result: EtfResult
   onSelect?: (result: EtfResult) => void
+}
+
+function ReturnCell({ value }: { value: EtfResult['one_year_return'] }) {
+  const formatted = formatReturnAbs(value)
+  const color = returnColor(value)
+  const dir = returnDirection(value)
+
+  if (formatted === '—') {
+    return <span className="text-muted-foreground">—</span>
+  }
+
+  return (
+    <span className={cn('inline-flex items-center gap-1', color)}>
+      {dir === 'up' && <TrendingUp className="size-3.5 shrink-0" />}
+      {dir === 'down' && <TrendingDown className="size-3.5 shrink-0" />}
+      {formatted}
+    </span>
+  )
 }
 
 export function EtfResultRow({ result, onSelect }: Props) {
@@ -30,13 +49,13 @@ export function EtfResultRow({ result, onSelect }: Props) {
       </div>
 
       <div className="hidden sm:flex items-center gap-4 shrink-0">
-        <p className={cn('text-sm font-medium text-right w-20', returnColor(result.one_year_return))}>
-          {formatReturn(result.one_year_return)}
-        </p>
-        <p className={cn('text-sm font-medium text-right w-20', returnColor(result.five_year_return))}>
-          {formatReturn(result.five_year_return)}
-        </p>
-        <p className="text-sm font-medium text-right w-16">
+        <div className="text-sm text-right w-20">
+          <ReturnCell value={result.one_year_return} />
+        </div>
+        <div className="text-sm text-right w-20">
+          <ReturnCell value={result.five_year_return} />
+        </div>
+        <p className="text-sm text-right w-16">
           {formatFee(result.management_fee)}
         </p>
       </div>
