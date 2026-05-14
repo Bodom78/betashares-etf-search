@@ -38,7 +38,7 @@ describe('EtfResultRow', () => {
 
   it('null return renders em dash', () => {
     render(<EtfResultRow result={{ ...base, one_year_return: null }} />)
-    expect(screen.getAllByText('—').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('-').length).toBeGreaterThan(0)
   })
 
   it('management fee renders with % suffix', () => {

@@ -32,7 +32,7 @@ function ReturnValue({ value }: { value: EtfResult['one_year_return'] }) {
   const color = returnColor(value)
   const dir = returnDirection(value)
 
-  if (formatted === '—') return <span className="text-muted-foreground">—</span>
+  if (formatted === '-') return <span className="text-muted-foreground">—</span>
 
   return (
     <span className={cn('inline-flex items-center gap-1', color)}>
@@ -90,13 +90,13 @@ export function EtfDetailPanel({ result, onBack }: Props) {
         />
         <Stat
           label="Frequency"
-          value={(result.dividend_frequency as string | undefined) ?? '—'}
+          value={(result.dividend_frequency as string | undefined) ?? '-'}
         />
         <Stat
           label="Inception"
           value={formatInceptionDate(result.inception_date as string | undefined)}
         />
-        <Stat label="Issuer" value={(result.issuer as string | undefined) ?? '—'} />
+        <Stat label="Issuer" value={(result.issuer as string | undefined) ?? '-'} />
         {result.investment_suitability && (
           <Stat
             label="Suitable for"

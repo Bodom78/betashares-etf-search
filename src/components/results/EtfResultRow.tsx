@@ -14,7 +14,7 @@ function ReturnCell({ value }: { value: EtfResult['one_year_return'] }) {
   const color = returnColor(value)
   const dir = returnDirection(value)
 
-  if (formatted === '—') {
+  if (formatted === '-') {
     return <span className="text-muted-foreground">—</span>
   }
 

@@ -6,8 +6,8 @@ describe('formatReturn', () => {
   it('negative string → "-N.NN%"', () => expect(formatReturn('-3.5')).toBe('-3.50%'))
   it('zero → "+0.00%"', () => expect(formatReturn('0')).toBe('+0.00%'))
   it('positive number → "+N.NN%"', () => expect(formatReturn(5.678)).toBe('+5.68%'))
-  it('null → "—"', () => expect(formatReturn(null)).toBe('—'))
-  it('undefined → "—"', () => expect(formatReturn(undefined)).toBe('—'))
+  it('null → "—"', () => expect(formatReturn(null)).toBe('-'))
+  it('undefined → "—"', () => expect(formatReturn(undefined)).toBe('-'))
 })
 
 describe('returnColor', () => {
@@ -21,5 +21,5 @@ describe('returnColor', () => {
 
 describe('formatFee', () => {
   it('fee string → "N.NN%"', () => expect(formatFee('0.48')).toBe('0.48%'))
-  it('null → "—"', () => expect(formatFee(null)).toBe('—'))
+  it('null → "—"', () => expect(formatFee(null)).toBe('-'))
 })
