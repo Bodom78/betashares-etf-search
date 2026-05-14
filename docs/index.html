@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BetaShares ETF Search — Web Component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#fc4d16">
+  <title>Betashares ETF Search — Web Component</title>
   <script src="./dist/etf-search.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,7 +29,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--page-bg);
       color: var(--page-text);
       line-height: 1.6;
@@ -202,7 +209,7 @@
 
 <header>
   <div class="header-inner">
-    <span class="logo">BetaShares <span>ETF Search</span></span>
+    <span class="logo">Betashares <span>ETF Search</span></span>
     <nav>
       <a href="#variants">Variants</a>
       <a href="#configuration">Configuration</a>
@@ -216,7 +223,7 @@
   <!-- Hero -->
   <div class="hero">
     <h1>ETF Search<br>as a Web Component</h1>
-    <p>Drop one script tag into any page. Search, filter, and explore BetaShares ETFs instantly.</p>
+    <p>Drop one script tag into any page. Search, filter, and explore Betashares ETFs instantly.</p>
     <div class="badge-row">
       <span class="badge">⚡ TanStack Query</span>
       <span class="badge">🔄 Virtual scroll</span>
@@ -331,7 +338,7 @@
         <tr>
           <td><code>api-url</code></td>
           <td><code>string</code></td>
-          <td>BetaShares API</td>
+          <td>Betashares API</td>
           <td>Override the search endpoint. Required when embedding on external domains (point to a CORS proxy).</td>
         </tr>
         <tr>
@@ -383,7 +390,7 @@
 </main>
 
 <footer>
-  Built as a technical assessment for BetaShares &mdash;
+  Built as a technical assessment for Betashares &mdash;
   <a href="https://github.com/Bodom78/betashares-etf-search">View on GitHub</a>
 </footer>
 

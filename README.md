@@ -1,6 +1,6 @@
-# BetaShares ETF Search
+# Betashares ETF Search
 
-A self-contained web component for searching and filtering BetaShares ETFs. Drop a single `<script>` tag into any page — no framework, no build step, no CSS conflicts.
+A self-contained web component for searching and filtering Betashares ETFs. Drop a single `<script>` tag into any page — no framework, no build step, no CSS conflicts.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://Bodom78.github.io/betashares-etf-search/)
 [![Built with React](https://img.shields.io/badge/React-19-61dafb?logo=react)](https://react.dev)
@@ -90,7 +90,7 @@ All attributes are optional. The component works with zero configuration.
 | Attribute | Type | Default | Description |
 |---|---|---|---|
 | `variant` | `"search" \| "button" \| "inline"` | `"search"` | Which surface to render |
-| `api-url` | `string` | BetaShares API | Search endpoint. Required when embedding on external domains — point to a CORS-enabled proxy |
+| `api-url` | `string` | Betashares API | Search endpoint. Required when embedding on external domains — point to a CORS-enabled proxy |
 | `initial-query` | `string` | — | Pre-fills the search input when the dialog opens |
 | `initial-categories` | `string` | — | Comma-separated asset categories to pre-activate. E.g. `"Australian Equities,Cash"` |
 | `initial-approach` | `string` | — | Comma-separated management approaches to pre-activate. E.g. `"Active"` |
