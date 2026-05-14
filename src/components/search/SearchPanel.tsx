@@ -32,7 +32,9 @@ export function SearchPanel({
   placeholder,
 }: Props) {
   const [selectedResult, setSelectedResult] = useState<EtfResult | null>(null)
-  const [debouncedFilters] = useDebounce(filters, 300)
+  const [debouncedSearchText] = useDebounce(filters.search_text, 300)
+  const isDebouncing = debouncedSearchText !== filters.search_text
+  const debouncedFilters = { ...filters, search_text: debouncedSearchText }
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
     useEtfSearch(debouncedFilters)
@@ -45,7 +47,8 @@ export function SearchPanel({
     filters.asset_categories.length > 0 ||
     filters.management_approach.length > 0
 
-  const isDone = !isLoading && !isFetchingNextPage
+  const effectivelyLoading = isLoading || isDebouncing
+  const isDone = !effectivelyLoading && !isFetchingNextPage
   const isEmpty = isDone && hasQuery && results.length === 0
 
   // Intercept Escape in capture phase so it closes the detail panel
@@ -87,14 +90,14 @@ export function SearchPanel({
             result={selectedResult}
             onBack={() => setSelectedResult(null)}
           />
-        ) : !hasQuery && !isLoading ? (
+        ) : !hasQuery && !effectivelyLoading ? (
           <DefaultState />
         ) : isEmpty ? (
           <EmptyState query={filters.search_text} />
         ) : (
           <ResultsList
             data={data}
-            isLoading={isLoading}
+            isLoading={effectivelyLoading}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
@@ -107,7 +110,7 @@ export function SearchPanel({
       {showFooter && (
         selectedResult
           ? <FooterHints total={null} mode="detail" />
-          : <FooterHints total={hasQuery && !isEmpty ? total : null} showEscClose={showEscClose} />
+          : <FooterHints total={hasQuery && !isEmpty && !effectivelyLoading ? total : null} showEscClose={showEscClose} />
       )}
     </div>
   )
