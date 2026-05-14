@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { SearchPanel } from './SearchPanel'
 import type { EtfFilters, EtfResult } from '@/types/etf'
 
@@ -41,6 +42,10 @@ export function SearchDialog({
           sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-md sm:shadow-lg
         "
       >
+        <VisuallyHidden>
+          <DialogTitle>Search ETFs</DialogTitle>
+          <DialogDescription>Search and filter Betashares ETFs by name, ASX code, category or management approach.</DialogDescription>
+        </VisuallyHidden>
         <SearchPanel
           filters={filters}
           onFiltersChange={onFiltersChange}
