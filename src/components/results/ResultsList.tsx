@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { flattenPages, useEtfSearch } from '@/hooks/useEtfSearch'
-import type { EtfFilters, EtfResult } from '@/types/etf'
+import { flattenPages } from '@/hooks/useEtfSearch'
+import type { EtfResult, SearchResponse } from '@/types/etf'
+import type { InfiniteData } from '@tanstack/react-query'
 import { EtfResultRow } from './EtfResultRow'
 import { EtfRowSkeleton } from './EtfRowSkeleton'
 
@@ -13,14 +14,22 @@ const PREFETCH_THRESHOLD = 5
 type RowItem = EtfResult | '__skeleton__'
 
 interface Props {
-  filters: EtfFilters
+  data: InfiniteData<SearchResponse> | undefined
+  isLoading: boolean
+  isFetchingNextPage: boolean
+  hasNextPage: boolean
+  fetchNextPage: () => void
   onSelect?: (result: EtfResult) => void
 }
 
-export function ResultsList({ filters, onSelect }: Props) {
-  const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isLoading } =
-    useEtfSearch(filters)
-
+export function ResultsList({
+  data,
+  isLoading,
+  isFetchingNextPage,
+  hasNextPage,
+  fetchNextPage,
+  onSelect,
+}: Props) {
   const results = flattenPages(data)
 
   const items: RowItem[] = isFetchingNextPage
