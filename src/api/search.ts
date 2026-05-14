@@ -1,9 +1,8 @@
 import type { EtfFilters, SearchRequest, SearchResponse } from '@/types/etf'
-
-const SEARCH_URL = 'https://search.betashares.services/search'
+import { SEARCH_API_URL } from '@/config'
 
 export async function fetchEtfs(req: SearchRequest): Promise<SearchResponse> {
-  const res = await fetch(SEARCH_URL, {
+  const res = await fetch(SEARCH_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req),

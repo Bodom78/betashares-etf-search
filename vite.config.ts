@@ -8,4 +8,13 @@ export default defineConfig({
   plugins: [TanStackRouterVite({ target: 'react' }), react(), tailwindcss()],
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   base: process.env.VITE_BASE ?? '/',
+  server: {
+    proxy: {
+      '/api/search': {
+        target: 'https://search.betashares.services',
+        changeOrigin: true,
+        rewrite: () => '/search',
+      },
+    },
+  },
 })
