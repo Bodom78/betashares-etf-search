@@ -1,8 +1,8 @@
 import type { EtfFilters, SearchRequest, SearchResponse } from '@/types/etf'
 import { SEARCH_API_URL } from '@/config'
 
-export async function fetchEtfs(req: SearchRequest): Promise<SearchResponse> {
-  const res = await fetch(SEARCH_API_URL, {
+export async function fetchEtfs(req: SearchRequest, apiUrl = SEARCH_API_URL): Promise<SearchResponse> {
+  const res = await fetch(apiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req),

@@ -7,6 +7,9 @@ import path from 'path'
 export default defineConfig({
   plugins: [react(), tailwindcss(), cssInjectedByJs()],
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     outDir: 'docs/dist',
     lib: {

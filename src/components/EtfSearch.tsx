@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { EtfFilters, EtfResult, EtfVariant } from '@/types/etf'
 import { DEFAULT_FILTERS } from '@/types/etf'
+import { ApiUrlContext } from '@/context/ApiUrlContext'
+import { SEARCH_API_URL } from '@/config'
 import { SearchDialog } from './search/SearchDialog'
 import { SearchTrigger } from './search/SearchTrigger'
 import { ButtonTrigger } from './search/ButtonTrigger'
@@ -8,6 +10,7 @@ import { InlineWrapper } from './search/InlineWrapper'
 
 interface Props {
   variant?: EtfVariant
+  apiUrl?: string
   initialQuery?: string
   initialCategories?: string[]
   initialApproach?: string[]
@@ -35,6 +38,7 @@ function buildInitialFilters(props: Props): EtfFilters {
 export function EtfSearch(props: Props) {
   const {
     variant = 'search',
+    apiUrl = SEARCH_API_URL,
     placeholder,
     buttonText,
     buttonVariant,
@@ -86,8 +90,8 @@ export function EtfSearch(props: Props) {
     return () => window.removeEventListener('keydown', handler)
   }, [variant, handleOpenChange])
 
-  if (variant === 'inline') {
-    return (
+  const inner =
+    variant === 'inline' ? (
       <InlineWrapper
         filters={filters}
         onFiltersChange={handleFiltersChange}
@@ -95,32 +99,34 @@ export function EtfSearch(props: Props) {
         height={height}
         placeholder={placeholder}
       />
-    )
-  }
-
-  return (
-    <>
-      {variant === 'button' ? (
-        <ButtonTrigger
-          onClick={() => handleOpenChange(true)}
-          text={buttonText}
-          variant={buttonVariant}
-        />
-      ) : (
-        <SearchTrigger
-          onClick={() => handleOpenChange(true)}
+    ) : (
+      <>
+        {variant === 'button' ? (
+          <ButtonTrigger
+            onClick={() => handleOpenChange(true)}
+            text={buttonText}
+            variant={buttonVariant}
+          />
+        ) : (
+          <SearchTrigger
+            onClick={() => handleOpenChange(true)}
+            placeholder={placeholder}
+          />
+        )}
+        <SearchDialog
+          open={open}
+          onOpenChange={handleOpenChange}
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
+          onSelect={onSelect}
           placeholder={placeholder}
         />
-      )}
+      </>
+    )
 
-      <SearchDialog
-        open={open}
-        onOpenChange={handleOpenChange}
-        filters={filters}
-        onFiltersChange={handleFiltersChange}
-        onSelect={onSelect}
-        placeholder={placeholder}
-      />
-    </>
+  return (
+    <ApiUrlContext.Provider value={apiUrl}>
+      {inner}
+    </ApiUrlContext.Provider>
   )
 }

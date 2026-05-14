@@ -2,14 +2,16 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import type { InfiniteData } from '@tanstack/react-query'
 import { fetchEtfs, buildSearchRequest } from '@/api/search'
 import type { EtfFilters, EtfResult, SearchResponse } from '@/types/etf'
+import { useApiUrl } from '@/context/ApiUrlContext'
 
 const PAGE_SIZE = 20
 
 export function useEtfSearch(filters: EtfFilters) {
+  const apiUrl = useApiUrl()
   return useInfiniteQuery({
-    queryKey: ['etfs', filters],
+    queryKey: ['etfs', filters, apiUrl],
     queryFn: ({ pageParam }) =>
-      fetchEtfs(buildSearchRequest(filters, pageParam as number, PAGE_SIZE)),
+      fetchEtfs(buildSearchRequest(filters, pageParam as number, PAGE_SIZE), apiUrl),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const fetched = allPages.reduce((acc, page) => acc + page.results.length, 0)

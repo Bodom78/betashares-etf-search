@@ -7,6 +7,7 @@ import './index.css'
 
 const OBSERVED_ATTRIBUTES = [
   'variant',
+  'api-url',
   'initial-query',
   'initial-categories',
   'initial-approach',
@@ -50,6 +51,7 @@ class BetasharesEtfSearch extends HTMLElement {
         { client: this.queryClient },
         createElement(EtfSearch, {
           variant: (this.getAttribute('variant') as EtfVariant) || 'search',
+          apiUrl: this.getAttribute('api-url') ?? undefined,
           initialQuery: this.getAttribute('initial-query') ?? undefined,
           initialCategories: rawCategories ? rawCategories.split(',') : undefined,
           initialApproach: rawApproach ? rawApproach.split(',') : undefined,
