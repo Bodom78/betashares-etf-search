@@ -20,7 +20,8 @@ export function buildSearchRequest(
   page: number,
   size: number,
 ): SearchRequest {
-  const from = (page - 1) * size
+  // "from" is a 1-based page number, not a byte/item offset
+  const from = page
 
   const req: SearchRequest = {
     from,

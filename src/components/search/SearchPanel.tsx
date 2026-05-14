@@ -110,7 +110,11 @@ export function SearchPanel({
       {showFooter && (
         selectedResult
           ? <FooterHints total={null} mode="detail" />
-          : <FooterHints total={hasQuery && !isEmpty && !effectivelyLoading ? total : null} showEscClose={showEscClose} />
+          : <FooterHints
+              total={hasQuery && !isEmpty && !effectivelyLoading ? total : null}
+              loaded={hasQuery && !isEmpty && !effectivelyLoading ? results.length : undefined}
+              showEscClose={showEscClose}
+            />
       )}
     </div>
   )

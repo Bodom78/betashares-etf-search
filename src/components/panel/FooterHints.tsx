@@ -1,10 +1,18 @@
 interface Props {
   total: number | null
+  loaded?: number
   mode?: 'results' | 'detail'
   showEscClose?: boolean
 }
 
-export function FooterHints({ total, mode = 'results', showEscClose = true }: Props) {
+export function FooterHints({ total, loaded, mode = 'results', showEscClose = true }: Props) {
+  const countLabel =
+    total !== null
+      ? loaded !== undefined && loaded < total
+        ? `${loaded.toLocaleString()} of ${total.toLocaleString()} funds`
+        : `${total.toLocaleString()} funds found`
+      : null
+
   return (
     <div className="hidden sm:flex items-center justify-between border-t border-border px-4 py-2 text-xs text-muted-foreground shrink-0">
       {mode === 'detail' ? (
@@ -26,9 +34,7 @@ export function FooterHints({ total, mode = 'results', showEscClose = true }: Pr
               </span>
             )}
           </div>
-          {total !== null && (
-            <span>{total.toLocaleString()} funds found</span>
-          )}
+          {countLabel !== null && <span>{countLabel}</span>}
         </>
       )}
     </div>
