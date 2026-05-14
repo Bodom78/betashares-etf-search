@@ -1,6 +1,6 @@
 # Betashares ETF Search
 
-A self-contained web component for searching and filtering Betashares ETFs. Drop a single `<script>` tag into any page — no framework, no build step, no CSS conflicts.
+A self-contained web component for searching and filtering Betashares ETFs. Drop a single `<script>` tag into any page — no framework, no build step, no CSS conflicts. [Live demo](https://bodom78.github.io/betashares-etf-search/).
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://bodom78.github.io/betashares-etf-search/)
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white)](https://react.dev)
@@ -81,12 +81,6 @@ npm run lint            # run ESLint
 ```
 
 Tests use **Vitest** + **Testing Library** + **MSW** for API mocking.
-
----
-
-## Live Demo
-
-[https://bodom78.github.io/betashares-etf-search/](https://bodom78.github.io/betashares-etf-search/)
 
 ---
 

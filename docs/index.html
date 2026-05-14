@@ -277,7 +277,7 @@
       <betashares-etf-search
         variant="button"
         button-text="Top Performers"
-        initial-order-by="one_year_return_desc"
+        initial-order-by="one_year_return.desc"
         api-url="https://betashares-search-proxy.betashares.workers.dev"
       ></betashares-etf-search>
     </div>
@@ -360,7 +360,7 @@
           <td><code>initial-order-by</code></td>
           <td><code>string</code></td>
           <td>—</td>
-          <td>Pre-selected sort. One of <code>one_year_return_desc</code>, <code>one_year_return_asc</code>, <code>management_fee_asc</code>, <code>display_name_asc</code>.</td>
+          <td>Pre-selected sort in dot notation. E.g. <code>one_year_return.desc</code>, <code>management_fee.asc</code>, <code>display_name.asc</code>.</td>
         </tr>
         <tr>
           <td><code>placeholder</code></td>
