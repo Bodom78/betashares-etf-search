@@ -20,6 +20,7 @@ const OBSERVED_ATTRIBUTES = [
   'initial-approach',
   'initial-order-by',
   'placeholder',
+  'auto-focus',
   'max-width',
   'button-text',
   'height',
@@ -68,6 +69,15 @@ class BetasharesEtfSearch extends HTMLElement {
       // inside the shadow root so the host page's CSS cannot interfere.
       this.portalContainer = document.createElement('div')
       shadow.appendChild(this.portalContainer)
+
+      // react-remove-scroll (used by Radix Dialog) attaches a document-level
+      // wheel listener and calls preventDefault() on events it can't trace to
+      // an allowed scroll container. Inside Shadow DOM the event's target at the
+      // document level is the shadow host, not the inner scroll container, so
+      // react-remove-scroll blocks every wheel event.
+      // Stopping propagation here prevents the event from crossing the shadow
+      // boundary while still allowing the browser's native overflow scroll.
+      shadow.addEventListener('wheel', (e) => { e.stopPropagation() }, { passive: true })
     }
 
     this.root = createRoot(this.container!)
@@ -101,6 +111,7 @@ class BetasharesEtfSearch extends HTMLElement {
           initialApproach: rawApproach ? rawApproach.split(',') : undefined,
           initialOrderBy: this.getAttribute('initial-order-by') ?? undefined,
           placeholder: this.getAttribute('placeholder') ?? undefined,
+          autoFocus: this.getAttribute('auto-focus') !== 'false',
           maxWidth: this.getAttribute('max-width') ?? undefined,
           buttonText: this.getAttribute('button-text') ?? undefined,
           height: this.getAttribute('height') ?? undefined,

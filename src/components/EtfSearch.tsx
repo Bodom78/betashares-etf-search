@@ -40,6 +40,7 @@ interface Props {
   initialApproach?: string[]
   initialOrderBy?: string
   placeholder?: string
+  autoFocus?: boolean
   maxWidth?: string
   buttonText?: string
   buttonVariant?: 'default' | 'outline' | 'secondary' | 'ghost'
@@ -66,6 +67,7 @@ export function EtfSearch(props: Props) {
     variant = 'search',
     apiUrl = SEARCH_API_URL,
     placeholder,
+    autoFocus = true,
     maxWidth,
     buttonText,
     buttonVariant,
@@ -145,6 +147,7 @@ export function EtfSearch(props: Props) {
           onFiltersChange={handleFiltersChange}
           onSelect={onSelect}
           placeholder={placeholder}
+          autoFocus={autoFocus}
         />
       </>
     )

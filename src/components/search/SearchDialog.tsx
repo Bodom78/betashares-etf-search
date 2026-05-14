@@ -10,6 +10,7 @@ interface Props {
   onFiltersChange: (filters: EtfFilters) => void
   onSelect?: (result: EtfResult) => void
   placeholder?: string
+  autoFocus?: boolean
 }
 
 export function SearchDialog({
@@ -19,6 +20,7 @@ export function SearchDialog({
   onFiltersChange,
   onSelect,
   placeholder,
+  autoFocus = true,
 }: Props) {
   useEffect(() => {
     if (!open) return
@@ -45,7 +47,7 @@ export function SearchDialog({
           onClose={() => onOpenChange(false)}
           onSelect={onSelect}
           showFooter
-          autoFocus
+          autoFocus={autoFocus}
           placeholder={placeholder}
         />
       </DialogContent>

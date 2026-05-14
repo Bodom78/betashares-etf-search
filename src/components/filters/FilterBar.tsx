@@ -1,21 +1,21 @@
-import type { EtfFilters } from '@/types/etf'
-import { FilterDropdown } from './FilterDropdown'
-import { SortDropdown } from './SortDropdown'
+import type { EtfFilters } from "@/types/etf"
+import { FilterDropdown } from "./FilterDropdown"
+import { SortDropdown } from "./SortDropdown"
 
 export const ASSET_CATEGORIES = [
-  'Australian Equities',
-  'International Equities',
-  'Australian Bonds',
-  'International Bonds',
-  'Cash',
-  'Commodities',
-  'Property',
-  'Multi-Asset',
-  'Alternatives',
-  'Currency',
+  "Australian Equities",
+  "International Equities",
+  "Australian Bonds",
+  "International Bonds",
+  "Cash",
+  "Commodities",
+  "Property",
+  "Multi Asset",
+  "Alternatives",
+  "Currency",
 ]
 
-export const MANAGEMENT_APPROACHES = ['Active', 'Passive']
+export const MANAGEMENT_APPROACHES = ["Active", "Passive"]
 
 interface Props {
   filters: EtfFilters
@@ -38,10 +38,7 @@ export function FilterBar({ filters, onChange }: Props) {
         onChange={(management_approach) => onChange({ ...filters, management_approach })}
       />
       <div className="ml-auto">
-        <SortDropdown
-          value={filters.order_by}
-          onChange={(order_by) => onChange({ ...filters, order_by })}
-        />
+        <SortDropdown value={filters.order_by} onChange={(order_by) => onChange({ ...filters, order_by })} />
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import { fetchEtfs, buildSearchRequest } from '@/api/search'
 import type { EtfFilters, EtfResult, SearchResponse } from '@/types/etf'
 import { useApiUrl } from '@/context/ApiUrlContext'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 50
 
 export function useEtfSearch(filters: EtfFilters) {
   const apiUrl = useApiUrl()
