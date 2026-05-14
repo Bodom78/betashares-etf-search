@@ -20,7 +20,7 @@ export function buildSearchRequest(
   page: number,
   size: number,
 ): SearchRequest {
-  const from = (page - 1) * size + 1
+  const from = (page - 1) * size
 
   const req: SearchRequest = {
     from,
