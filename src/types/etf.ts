@@ -42,20 +42,24 @@ export interface SearchRequest {
 }
 
 export interface EtfResult {
-  asx_code: string
-  fund_name: string
-  asset_category?: string
+  symbol: string
+  display_name: string
+  asset_categories: string[]
   management_approach?: string
-  management_fee?: number
-  one_year_return?: number
+  management_fee?: string
+  one_year_return?: string | null
+  five_year_return?: string | null
+  logo?: string
+  fund_size?: string
+  classification?: string
+  dividend_frequency?: string
   [key: string]: unknown
 }
 
 export interface SearchResponse {
-  total: number
-  from: number
-  size: number
+  count: number
   results: EtfResult[]
+  indexed_at: number
 }
 
 export interface IndexSearch {
