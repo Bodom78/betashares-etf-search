@@ -1,5 +1,5 @@
 import type { EtfFilters } from '@/types/etf'
-import { FilterChip } from './FilterChip'
+import { FilterDropdown } from './FilterDropdown'
 import { SortSelect } from './SortSelect'
 
 export const ASSET_CATEGORIES = [
@@ -22,46 +22,27 @@ interface Props {
   onChange: (filters: EtfFilters) => void
 }
 
-function toggle(arr: string[], value: string): string[] {
-  return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value]
-}
-
 export function FilterBar({ filters, onChange }: Props) {
   return (
-    <div className="flex items-center gap-2 px-4 py-2 overflow-x-auto border-b border-border no-scrollbar">
-      {ASSET_CATEGORIES.map((cat) => (
-        <FilterChip
-          key={cat}
-          label={cat}
-          active={filters.asset_categories.includes(cat)}
-          onToggle={() =>
-            onChange({ ...filters, asset_categories: toggle(filters.asset_categories, cat) })
-          }
-        />
-      ))}
-
-      <div className="w-px h-5 bg-border shrink-0 mx-1" />
-
-      {MANAGEMENT_APPROACHES.map((approach) => (
-        <FilterChip
-          key={approach}
-          label={approach}
-          active={filters.management_approach.includes(approach)}
-          onToggle={() =>
-            onChange({
-              ...filters,
-              management_approach: toggle(filters.management_approach, approach),
-            })
-          }
-        />
-      ))}
-
-      <div className="w-px h-5 bg-border shrink-0 mx-1" />
-
-      <SortSelect
-        value={filters.order_by}
-        onChange={(order_by) => onChange({ ...filters, order_by })}
+    <div className="flex items-center gap-2 px-4 py-2 border-b border-border">
+      <FilterDropdown
+        label="Category"
+        options={ASSET_CATEGORIES}
+        selected={filters.asset_categories}
+        onChange={(asset_categories) => onChange({ ...filters, asset_categories })}
       />
+      <FilterDropdown
+        label="Approach"
+        options={MANAGEMENT_APPROACHES}
+        selected={filters.management_approach}
+        onChange={(management_approach) => onChange({ ...filters, management_approach })}
+      />
+      <div className="ml-auto">
+        <SortSelect
+          value={filters.order_by}
+          onChange={(order_by) => onChange({ ...filters, order_by })}
+        />
+      </div>
     </div>
   )
 }

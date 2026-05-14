@@ -3,18 +3,21 @@ import { Search } from 'lucide-react'
 interface Props {
   onClick: () => void
   placeholder?: string
+  maxWidth?: string
 }
 
 export function SearchTrigger({
   onClick,
   placeholder = 'Search ETFs…',
+  maxWidth,
 }: Props) {
   return (
     <button
       type="button"
       onClick={onClick}
+      style={maxWidth ? { maxWidth } : undefined}
       className="
-        flex items-center gap-2 w-full sm:w-72
+        flex items-center gap-2 w-full
         h-9 rounded-md border border-input bg-background
         px-3 text-sm text-muted-foreground
         hover:bg-accent hover:text-accent-foreground

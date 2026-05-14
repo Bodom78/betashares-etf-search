@@ -34,19 +34,16 @@ export function SearchDialog({
       <DialogContent
         showCloseButton={false}
         className="
-          p-0 gap-0 overflow-hidden
+          flex flex-col p-0 gap-0 overflow-hidden
           w-screen h-screen max-w-none rounded-none
-          sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-2xl
+          sm:w-full sm:h-[min(700px,85vh)] sm:max-w-3xl sm:rounded-md
         "
       >
         <SearchPanel
           filters={filters}
           onFiltersChange={onFiltersChange}
           onClose={() => onOpenChange(false)}
-          onSelect={(result) => {
-            onSelect?.(result)
-            onOpenChange(false)
-          }}
+          onSelect={onSelect}
           showFooter
           autoFocus
           placeholder={placeholder}

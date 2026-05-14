@@ -40,6 +40,7 @@ interface Props {
   initialApproach?: string[]
   initialOrderBy?: string
   placeholder?: string
+  maxWidth?: string
   buttonText?: string
   buttonVariant?: 'default' | 'outline' | 'secondary' | 'ghost'
   height?: string
@@ -65,6 +66,7 @@ export function EtfSearch(props: Props) {
     variant = 'search',
     apiUrl = SEARCH_API_URL,
     placeholder,
+    maxWidth,
     buttonText,
     buttonVariant,
     height,
@@ -133,6 +135,7 @@ export function EtfSearch(props: Props) {
           <SearchTrigger
             onClick={() => handleOpenChange(true)}
             placeholder={placeholder}
+            maxWidth={maxWidth}
           />
         )}
         <SearchDialog

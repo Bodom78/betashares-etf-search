@@ -18,9 +18,9 @@ export function SearchInputRow({
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (autoFocus) {
-      inputRef.current?.focus()
-    }
+    if (!autoFocus) return
+    const raf = requestAnimationFrame(() => inputRef.current?.focus())
+    return () => cancelAnimationFrame(raf)
   }, [autoFocus])
 
   return (

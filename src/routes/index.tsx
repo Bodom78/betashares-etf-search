@@ -54,14 +54,22 @@ function IndexPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16">
-      <div className="flex flex-col items-center gap-6 text-center mb-16">
+    <div className="mx-auto max-w-3xl px-6 py-16 flex flex-col gap-16">
+
+      <div className="flex flex-col items-center gap-4 text-center">
         <h1 className="text-4xl font-heading font-semibold tracking-tight">
-          Find the right ETF
+          Betashares ETF Search
         </h1>
         <p className="text-muted-foreground max-w-lg">
-          Search and filter BetaShares ETFs by name, ticker, category, or performance.
+          Search and filter Betashares ETFs by name, ticker, category, or performance.
         </p>
+      </div>
+
+      <section className="flex flex-col gap-4">
+        <div>
+          <h2 className="text-base font-semibold">Variant: search (default)</h2>
+          <p className="text-sm text-muted-foreground">Input-style trigger — opens a dialog. Press Ctrl+K from anywhere.</p>
+        </div>
         <EtfSearch
           variant="search"
           open={open}
@@ -69,7 +77,31 @@ function IndexPage() {
           onFiltersChange={handleFiltersChange}
           onOpenChange={handleOpenChange}
         />
-      </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <div>
+          <h2 className="text-base font-semibold">Variant: button</h2>
+          <p className="text-sm text-muted-foreground">Button trigger — pre-filtered to Australian Equities.</p>
+        </div>
+        <EtfSearch
+          variant="button"
+          buttonText="Browse Australian Equities"
+          initialCategories={['Australian Equities']}
+        />
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <div>
+          <h2 className="text-base font-semibold">Variant: inline</h2>
+          <p className="text-sm text-muted-foreground">Full panel rendered inline — no trigger or overlay.</p>
+        </div>
+        <EtfSearch
+          variant="inline"
+          height="550px"
+        />
+      </section>
+
     </div>
   )
 }

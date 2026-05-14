@@ -25,7 +25,8 @@ export function InlineWrapper({
         filters={filters}
         onFiltersChange={onFiltersChange}
         onSelect={onSelect}
-        showFooter={false}
+        showFooter
+        showEscClose={false}
         placeholder={placeholder}
       />
     </div>

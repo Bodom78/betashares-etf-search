@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { formatReturn, returnColor, formatFee } from '@/lib/format'
 import type { EtfResult } from '@/types/etf'
@@ -47,6 +48,8 @@ export function EtfResultRow({ result, onSelect }: Props) {
           </Badge>
         )}
       </div>
+
+      <ChevronRight className="shrink-0 h-4 w-4 text-muted-foreground" />
     </button>
   )
 }

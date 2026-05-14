@@ -20,6 +20,7 @@ const OBSERVED_ATTRIBUTES = [
   'initial-approach',
   'initial-order-by',
   'placeholder',
+  'max-width',
   'button-text',
   'height',
 ] as const
@@ -126,6 +127,7 @@ class BetasharesEtfSearch extends HTMLElement {
           initialApproach: rawApproach ? rawApproach.split(',') : undefined,
           initialOrderBy: this.getAttribute('initial-order-by') ?? undefined,
           placeholder: this.getAttribute('placeholder') ?? undefined,
+          maxWidth: this.getAttribute('max-width') ?? undefined,
           buttonText: this.getAttribute('button-text') ?? undefined,
           height: this.getAttribute('height') ?? undefined,
           portalContainer: this.portalContainer,
