@@ -1,6 +1,6 @@
 # Betashares ETF Search
 
-A self-contained web component for searching and filtering Betashares ETFs. Drop a single `<script>` tag into any page — no framework, no build step, no CSS conflicts. [Live demo](https://bodom78.github.io/betashares-etf-search/).
+A self-contained web component for searching and filtering Betashares ETFs. Drop a single `<script>` tag into any page - no framework, no build step, no CSS conflicts. [Live demo](https://bodom78.github.io/betashares-etf-search/).
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://bodom78.github.io/betashares-etf-search/)
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white)](https://react.dev)
@@ -17,7 +17,7 @@ A self-contained web component for searching and filtering Betashares ETFs. Drop
 
 ### Prerequisites
 
-- **Node.js** 20 or later — [nodejs.org](https://nodejs.org)
+- **Node.js** 20 or later - [nodejs.org](https://nodejs.org)
 - **npm** 10 or later (bundled with Node.js)
 - **Git**
 
@@ -31,7 +31,7 @@ npm --version    # 10.x or higher
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Bodom78/betashares-etf-search.git
+git clone https://github.com/bodom78/betashares-etf-search.git
 cd betashares-etf-search
 ```
 
@@ -43,17 +43,17 @@ npm install
 
 ### 3. Choose your workflow
 
-#### Option A — Dev server (recommended for editing)
+#### Option A - Dev server (recommended for editing)
 
 ```bash
 npm run dev
 ```
 
-Opens a Vite dev server at `http://localhost:5173` with hot module replacement. The dev app renders all three component variants as a React app — not as a web component — which makes iteration fast and enables React DevTools.
+Opens a Vite dev server at `http://localhost:5173` with hot module replacement. The dev app renders all three component variants as a React app - not as a web component - which makes iteration fast and enables React DevTools.
 
 Best for: editing components, debugging, and developing against the live API.
 
-#### Option B — Build and preview the web component
+#### Option B - Build and preview the web component
 
 ```bash
 npm run build:wc
@@ -87,7 +87,7 @@ Tests use **Vitest** + **Testing Library** + **MSW** for API mocking.
 ## Quick Start
 
 ```html
-<script src="https://Bodom78.github.io/betashares-etf-search/dist/etf-search.js"></script>
+<script src="https://bodom78.github.io/betashares-etf-search/dist/etf-search.js"></script>
 
 <betashares-etf-search api-url="https://betashares-search-proxy.betashares.workers.dev"></betashares-etf-search>
 ```
@@ -98,20 +98,20 @@ Press **Ctrl+K** (or **Cmd+K** on Mac) to open the search dialog.
 
 ## Features
 
-- **Three variants** — search trigger (Ctrl/Cmd+K), button trigger, and inline panel
-- **Shadow DOM isolation** — the component's styles never leak out, and the host page's styles never leak in
-- **Filter bar** — asset category and management approach dropdowns, sort dropdown with 3-state cycling
-- **Virtualised results** — TanStack Virtual renders only visible rows, handles large lists smoothly
-- **Inline detail panel** — select any fund to expand a detail view with stats and top holdings
-- **Debounced text search** — 300 ms debounce on text input; filter and sort changes query immediately
-- **Keyboard accessible** — full Radix UI accessibility primitives (focus traps, ARIA roles, Escape to close)
-- **Zero host-page dependencies** — single IIFE bundle; React and all UI code are bundled inside
+- **Three variants** - search trigger (Ctrl/Cmd+K), button trigger, and inline panel
+- **Shadow DOM isolation** - the component's styles never leak out, and the host page's styles never leak in
+- **Filter bar** - asset category and management approach dropdowns, sort dropdown with 3-state cycling
+- **Virtualised results** - TanStack Virtual renders only visible rows, handles large lists smoothly
+- **Inline detail panel** - select any fund to expand a detail view with stats and top holdings
+- **Debounced text search** - 300 ms debounce on text input; filter and sort changes query immediately
+- **Keyboard accessible** - full Radix UI accessibility primitives (focus traps, ARIA roles, Escape to close)
+- **Zero host-page dependencies** - single IIFE bundle; React and all UI code are bundled inside
 
 ---
 
 ## Variants
 
-### `search` (default) — search trigger
+### `search` (default) - search trigger
 
 Renders an input-style button. Clicking it, or pressing Ctrl+K anywhere on the page, opens the full search dialog.
 
@@ -119,7 +119,7 @@ Renders an input-style button. Clicking it, or pressing Ctrl+K anywhere on the p
 <betashares-etf-search api-url="https://betashares-search-proxy.betashares.workers.dev"></betashares-etf-search>
 ```
 
-### `button` — button trigger
+### `button` - button trigger
 
 Renders a plain button. Useful when you want to pre-apply filters before the dialog opens.
 
@@ -129,13 +129,14 @@ Renders a plain button. Useful when you want to pre-apply filters before the dia
   button-text="Browse Australian Equities"
   initial-categories="Australian Equities"
   initial-order-by="one_year_return.desc"
+  auto-focus="false"
   api-url="https://betashares-search-proxy.betashares.workers.dev"
 ></betashares-etf-search>
 ```
 
-### `inline` — inline panel
+### `inline` - inline panel
 
-Renders the full search panel directly in the page flow — no trigger, no overlay. Ideal for dedicated search or fund-finder pages.
+Renders the full search panel directly in the page flow - no trigger, no overlay. Ideal for dedicated search or fund-finder pages.
 
 ```html
 <betashares-etf-search
@@ -154,13 +155,14 @@ All attributes are optional. The component works with zero configuration.
 | Attribute            | Type                               | Default                                     | Description                                                                                                    |
 | -------------------- | ---------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `variant`            | `"search" \| "button" \| "inline"` | `"search"`                                  | Which surface to render                                                                                        |
-| `api-url`            | `string`                           | Betashares API                              | Search endpoint. Required when embedding on external domains — point to a CORS-enabled proxy                   |
-| `initial-query`      | `string`                           | —                                           | Pre-fills the search input when the dialog opens                                                               |
-| `initial-categories` | `string`                           | —                                           | Comma-separated asset categories to pre-select. E.g. `"Australian Equities,Cash"`                              |
-| `initial-approach`   | `string`                           | —                                           | Comma-separated management approaches to pre-select. E.g. `"Active"`                                           |
-| `initial-order-by`   | `string`                           | —                                           | Pre-selected sort in dot notation. E.g. `"one_year_return.desc"`, `"management_fee.asc"`, `"display_name.asc"` |
+| `api-url`            | `string`                           | Betashares API                              | Search endpoint. Required when embedding on external domains - point to a CORS-enabled proxy                   |
+| `initial-query`      | `string`                           | -                                           | Pre-fills the search input when the dialog opens                                                               |
+| `initial-categories` | `string`                           | -                                           | Comma-separated asset categories to pre-select. E.g. `"Australian Equities,Cash"`                              |
+| `initial-approach`   | `string`                           | -                                           | Comma-separated management approaches to pre-select. E.g. `"Active"`                                           |
+| `initial-order-by`   | `string`                           | -                                           | Pre-selected sort in dot notation. E.g. `"one_year_return.desc"`, `"management_fee.asc"`, `"display_name.asc"` |
+| `auto-focus`         | `boolean`                          | `true`                                      | Whether to focus the search input when the dialog opens. Set to `false` when pre-applying filters so results are immediately scrollable |
 | `placeholder`        | `string`                           | `"Search by ASX code, fund name or phrase"` | Placeholder for the search input and trigger button                                                            |
-| `max-width`          | `string`                           | —                                           | Max width of the search trigger. Any valid CSS value. Only applies when `variant="search"`                     |
+| `max-width`          | `string`                           | -                                           | Max width of the search trigger. Any valid CSS value. Only applies when `variant="search"`                     |
 | `button-text`        | `string`                           | `"Search ETFs"`                             | Button label. Only applies when `variant="button"`                                                             |
 | `height`             | `string`                           | `"550px"`                                   | Height of the inline panel. Any valid CSS value. Only applies when `variant="inline"`                          |
 
@@ -193,27 +195,28 @@ The API uses 0-based `from` offsets with a `size` page limit. TanStack Query's `
 ## AI Usage and Process
 
 The development process breakdown:
-* Read the Technical Assessment document
-* Look at the funds search functionality on the Betashares website
-* Research UI/UX search patterns and implementations taking notes along the way of what I may want to use.
-* Decide on technology stack.
-  * I decided on TanStack as I've never used and have been keen to for a while now and had features suitable for this project.
-  * And ShadCN as I've used it before and love the ease in which you can extend, customize and combine elements.
-* Fed the technical document into Claude in plan mode to get a stating point for the plan.
-* Iterated heavily on the plan as I started to build a mental model the end result.
-* Ensured the plan accounted for the recent npm supply chain attacks with checks on each lib install
-* Broke the plan down into manageable chunks where:
-  * Small update is made
-  * I review, adjust and confirm it's good enough to proceed
-  * Noted any issues to comeback to, ie: bugs, bad layout etc
-  * Committed to git
-  * Moved on to next phase.
-* Once the plan was completed I moved to a iteration process of:
-  * Focus on issues
-  * Prompt fix
-  * Manual editing where prompt would take longer
-  * Test and commit
-  * Repeat
-* Once everything was looking good I moved to more superficial updates like wording updates, UI/UX tweaks, improving demo page.
+
+- Read the Technical Assessment document
+- Look at the funds search functionality on the Betashares website
+- Research UI/UX search patterns and implementations taking notes along the way of what I may want to use.
+- Decide on technology stack.
+  - I decided on TanStack as I've never used and have been keen to for a while now and had features suitable for this project.
+  - And ShadCN as I've used it before and love the ease in which you can extend, customize and combine elements.
+- Fed the technical document into Claude in plan mode to get a stating point for the plan.
+- Iterated heavily on the plan as I started to build a mental model the end result.
+- Ensured the plan accounted for the recent npm supply chain attacks with checks on each lib install
+- Broke the plan down into manageable chunks where:
+  - Small update is made
+  - I review, adjust and confirm it's good enough to proceed
+  - Noted any issues to comeback to, ie: bugs, bad layout etc
+  - Committed to git
+  - Moved on to next phase.
+- Once the plan was completed I moved to a iteration process of:
+  - Focus on issues
+  - Prompt fix
+  - Manual editing where prompt would take longer
+  - Test and commit
+  - Repeat
+- Once everything was looking good I moved to more superficial updates like wording updates, UI/UX tweaks, improving demo page.
 
 Betashares has made it clear that the use of AI is of vital importance for the position so I opted to make use of it as much as possible during the development of this technical assessment. This initial plan has been included and can be viewed [here](PLAN.md).

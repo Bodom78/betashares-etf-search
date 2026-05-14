@@ -1,395 +1,502 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#fc4d16">
-  <title>Betashares ETF Search — Web Component</title>
-  <script src="./dist/etf-search.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#fc4d16" />
+    <title>Betashares ETF Search - Web Component</title>
+    <script src="./dist/etf-search.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1/themes/prism-atom-dark.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --page-bg: #ffffff;
-      --page-bg-subtle: #f8f9fa;
-      --page-border: #e5e7eb;
-      --page-text: #111827;
-      --page-text-muted: #6b7280;
-      --page-primary: #111827;
-      --page-accent: #2563eb;
-      --page-code-bg: #f3f4f6;
-      --page-radius: 10px;
-      --page-max-w: 860px;
-    }
+      :root {
+        --page-bg: #ffffff;
+        --page-bg-subtle: #f8f9fa;
+        --page-border: #e5e7eb;
+        --page-text: #111827;
+        --page-text-muted: #6b7280;
+        --page-primary: #111827;
+        --page-accent: #2563eb;
+        --page-code-bg: #f3f4f6;
+        --page-radius: 10px;
+        --page-max-w: 960px;
+      }
 
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--page-bg);
-      color: var(--page-text);
-      line-height: 1.6;
-      font-size: 15px;
-    }
+      body {
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: var(--page-bg);
+        color: var(--page-text);
+        line-height: 1.6;
+        font-size: 15px;
+      }
 
-    a { color: var(--page-accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+      a {
+        color: var(--page-accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
 
-    /* ── Header ── */
-    header {
-      border-bottom: 1px solid var(--page-border);
-      position: sticky;
-      top: 0;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-    }
-    .header-inner {
-      max-width: var(--page-max-w);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    .logo { font-weight: 700; font-size: 15px; color: var(--page-text); }
-    .logo span { font-weight: 400; color: var(--page-text-muted); margin-left: 6px; font-size: 13px; }
-    nav { margin-left: auto; display: flex; gap: 1.5rem; font-size: 14px; }
+      /* ── Header ── */
+      header {
+        border-bottom: 1px solid var(--page-border);
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+      }
+      .header-inner {
+        max-width: var(--page-max-w);
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .logo svg {
+        display: block;
+      }
+      nav {
+        margin-left: auto;
+        display: flex;
+        gap: 1.5rem;
+        font-size: 14px;
+      }
 
-    /* ── Layout ── */
-    main { max-width: var(--page-max-w); margin: 0 auto; padding: 0 1.5rem 6rem; }
+      /* ── Layout ── */
+      main {
+        max-width: var(--page-max-w);
+        margin: 0 auto;
+        padding: 0 1.5rem 6rem;
+      }
 
-    /* ── Hero ── */
-    .hero {
-      padding: 5rem 0 4rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      color: var(--page-text-muted);
-      font-size: 1.1rem;
-      max-width: 520px;
-      margin: 0 auto 2rem;
-    }
-    .badge-row {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--page-border);
-      font-size: 12px;
-      color: var(--page-text-muted);
-    }
-    .install-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--page-primary);
-      color: #fff;
-      border-radius: var(--page-radius);
-      padding: 0.75rem 1.25rem;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 13px;
-    }
-    .copy-btn {
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 5px;
-      padding: 2px 8px;
-      font-size: 12px;
-      transition: background 0.15s;
-    }
-    .copy-btn:hover { background: rgba(255,255,255,0.25); }
+      /* ── Hero ── */
+      .hero {
+        padding: 5rem 0 4rem;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+      .hero p {
+        color: var(--page-text-muted);
+        font-size: 1.1rem;
 
-    /* ── Sections ── */
-    section { padding: 3.5rem 0; border-top: 1px solid var(--page-border); }
-    section h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-    }
-    section .lead {
-      color: var(--page-text-muted);
-      margin-bottom: 2rem;
-      font-size: 14px;
-    }
-    .demo-box {
-      background: var(--page-bg-subtle);
-      border: 1px solid var(--page-border);
-      border-radius: var(--page-radius);
-      padding: 2rem;
-      margin-bottom: 1rem;
-    }
-    .demo-box + .demo-box { margin-top: 1rem; }
-    .demo-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--page-text-muted);
-      margin-bottom: 1rem;
-    }
-    pre {
-      background: var(--page-code-bg);
-      border: 1px solid var(--page-border);
-      border-radius: var(--page-radius);
-      padding: 1rem 1.25rem;
-      overflow-x: auto;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 12.5px;
-      line-height: 1.7;
-      color: var(--page-text);
-      margin-bottom: 1rem;
-    }
+        margin: 0 auto 2rem;
+      }
+      .badge-row {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+      }
+      .badge-row a {
+        display: inline-flex;
+      }
+      .badge-row img {
+        display: block;
+      }
+      .install-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: var(--page-primary);
+        color: #fff;
+        border-radius: var(--page-radius);
+        padding: 0.75rem 1.25rem;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 13px;
+      }
+      .copy-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 2px 8px;
+        font-size: 12px;
+        transition: background 0.15s;
+      }
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
 
-    /* ── Config table ── */
-    .config-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13.5px;
-    }
-    .config-table th {
-      text-align: left;
-      padding: 8px 12px;
-      background: var(--page-bg-subtle);
-      border: 1px solid var(--page-border);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--page-text-muted);
-    }
-    .config-table td {
-      padding: 10px 12px;
-      border: 1px solid var(--page-border);
-      vertical-align: top;
-    }
-    .config-table tr:hover td { background: var(--page-bg-subtle); }
-    code {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 12px;
-      background: var(--page-code-bg);
-      padding: 1px 5px;
-      border-radius: 4px;
-    }
+      /* ── Sections ── */
+      section {
+        padding: 3.5rem 0;
+        border-top: 1px solid var(--page-border);
+      }
+      section h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.5rem;
+      }
+      section .lead {
+        color: var(--page-text-muted);
+        margin-bottom: 2rem;
+        font-size: 14px;
+      }
+      .demo-box {
+        background: var(--page-bg-subtle);
+        border: 1px solid var(--page-border);
+        border-radius: var(--page-radius);
+        padding: 2rem;
+        margin-bottom: 1rem;
+      }
+      .demo-box + .demo-box {
+        margin-top: 1rem;
+      }
+      .demo-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--page-text-muted);
+        margin-bottom: 1rem;
+      }
 
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--page-border);
-      text-align: center;
-      padding: 2rem 1.5rem;
-      color: var(--page-text-muted);
-      font-size: 13px;
-    }
-  </style>
-</head>
-<body>
+      /* ── Code blocks ── */
+      pre {
+        background: #1d1f21;
+        color: #c5c8c6;
+        border-radius: var(--page-radius);
+        padding: 1.25rem 1.5rem;
+        overflow-x: auto;
+        font-family: "SF Mono", "Fira Code", Consolas, monospace;
+        font-size: 12.5px;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      /* Prism overrides — keep layout, let theme control colours */
+      pre[class*="language-"] {
+        border-radius: var(--page-radius);
+        margin-bottom: 1rem;
+        font-size: 12.5px;
+        line-height: 1.7;
+        font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      }
 
-<header>
-  <div class="header-inner">
-    <span class="logo">Betashares <span>ETF Search</span></span>
-    <nav>
-      <a href="#variants">Variants</a>
-      <a href="#configuration">Configuration</a>
-      <a href="https://github.com/Bodom78/betashares-etf-search">GitHub</a>
-    </nav>
-  </div>
-</header>
+      /* ── Inline code (table cells etc.) ── */
+      :not(pre) > code {
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 12px;
+        background: var(--page-code-bg);
+        color: var(--page-text);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
 
-<main>
+      /* ── Config table ── */
+      .config-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+      }
+      .config-table th {
+        text-align: left;
+        padding: 8px 12px;
+        background: var(--page-bg-subtle);
+        border: 1px solid var(--page-border);
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--page-text-muted);
+      }
+      .config-table td {
+        padding: 10px 12px;
+        border: 1px solid var(--page-border);
+        vertical-align: top;
+      }
+      .config-table tr:hover td {
+        background: var(--page-bg-subtle);
+      }
 
-  <!-- Hero -->
-  <div class="hero">
-    <h1>ETF Search<br>as a Web Component</h1>
-    <p>Drop one script tag into any page. Search, filter, and explore Betashares ETFs instantly.</p>
-    <div class="badge-row">
-      <span class="badge">⚡ TanStack Query</span>
-      <span class="badge">🔄 Virtual scroll</span>
-      <span class="badge">🎨 ShadCN UI</span>
-      <span class="badge">📦 Self-contained</span>
-    </div>
-    <div class="install-box">
-      <span>&lt;script src="etf-search.js"&gt;&lt;/script&gt;</span>
-      <button class="copy-btn" onclick="navigator.clipboard.writeText('<script src=\'etf-search.js\'></script>');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
-    </div>
-  </div>
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--page-border);
+        text-align: center;
+        padding: 2rem 1.5rem;
+        color: var(--page-text-muted);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <a href="/" class="logo">
+          <svg
+            viewBox="0 0 863.89 174.76"
+            width="184"
+            height="40"
+            xmlns="http://www.w3.org/2000/svg"
+            fill-rule="evenodd"
+          >
+            <title>Betashares</title>
+            <circle cx="87.03" cy="87.4" r="86.57" style="fill: #fa4d16"></circle>
+            <path
+              d="M66.74 53.25c0-.44.48-.72.86-.5l59.2 34.18c.38.22.38.78 0 1l-59.2 34.18a.576.576 0 0 1-.86-.5V53.25Zm10.93-4.81c-.46-.27-.27-.98.26-.98h31.12c.56 0 1.08.3 1.36.79l15.46 26.9c.27.46-.25.98-.72.71L77.66 48.44Zm-19.7 66.26c0 .54-.71.73-.98.26l-15.4-26.79c-.28-.48-.28-1.08 0-1.57l15.4-26.79c.27-.46.98-.28.98.26v54.62Zm67.85-14.96c.27-.46-.25-.98-.72-.71l-47.32 27.32c-.46.27-.27.98.26.98h31c.56 0 1.08-.3 1.36-.79l15.41-26.79ZM141.53 90c.93-1.62.93-3.6 0-5.22l-24.99-43.46a5.25 5.25 0 0 0-4.54-2.63H62.06c-1.87 0-3.61 1-4.54 2.63L32.53 84.78c-.93 1.62-.93 3.6 0 5.22l24.99 43.46a5.25 5.25 0 0 0 4.54 2.63H112c1.87 0 3.61-1 4.54-2.63L141.53 90Z"
+              style="fill: #fff; fill-rule: evenodd"
+            ></path>
+            <path
+              d="M220.56 103.09c0-11.44 8.45-20.53 20.48-20.53s20.48 9.09 20.48 20.53-8.59 20.67-20.48 20.67-20.48-9.23-20.48-20.67Zm24.06 34.86c19.48 0 32.8-15.43 32.8-34.86s-13.32-34.72-32.8-34.72c-9.45 0-18.76 4.27-23.63 11.85V39.85h-15.9v96.44h15.04v-11.85c4.58 8.68 14.61 13.5 24.49 13.5ZM298.36 95.23c2.44-8.82 9.02-14.33 18.76-14.33s16.62 5.51 18.91 14.33h-37.67Zm19.91 43.12c14.04 0 26.36-5.92 32.52-19.15v-.28c-4.3.28-10.74-2.62-13.32-6.06l-.14.14c-2.58 6.89-9.45 11.99-18.76 11.99-11.17 0-19.62-7.03-21.06-18.46h53.71c2.58-20.8-11.17-38.58-33.95-38.58-20.2 0-34.81 15.71-34.81 35.13s14.9 35.27 35.81 35.27ZM354.6 83.66h9.31v52.63h16.05V83.66h10.17V69.88h-10.17V48.65h-16.05v21.23h-9.31v13.78zM408.94 103.09c0-11.44 8.45-20.53 20.48-20.53s20.63 9.23 20.63 20.53-8.45 20.67-20.63 20.67-20.48-9.23-20.48-20.67Zm17.05 34.72c9.31 0 19.48-4.55 24.06-13.09v11.57h15.47V69.88h-15.47v11.57c-4.58-8.54-14.75-13.09-24.06-13.09-19.62 0-32.95 15.43-32.95 34.72s13.32 34.72 32.95 34.72ZM501.93 138.36c15.76 0 26.5-9.64 26.5-22.18S518.4 98.13 507.8 96.06l-6.45-1.24c-5.73-1.24-10.03-2.76-10.03-7.16 0-3.86 3.72-7.44 9.6-7.44 6.45 0 11.46 3.17 13.03 9.92h.14c2.72-3.17 9.17-5.65 13.46-5.1l.14-.14c-2.58-9.37-11.89-17.08-26.36-17.08s-25.5 9.37-25.5 20.67c0 10.2 6.88 16.26 20.77 19.15l6.73 1.38c5.3 1.24 9.45 2.89 9.45 7.72s-3.72 8.68-10.74 8.68c-8.59 0-14.75-5.51-15.9-12.4l-.14-.14c-2.72 3.17-9.17 5.51-13.46 4.96l-.14.14c2.58 12.4 14.04 20.39 29.51 20.39ZM536.16 136.29h15.9V98.54c0-9.64 6.88-15.98 16.33-15.98s15.47 6.06 15.47 15.43v38.3h15.9V92.34c0-14.05-11.17-24.11-25.93-24.11-8.74 0-17.33 3.86-21.77 11.71V39.85h-15.9v96.44ZM623.28 103.09c0-11.44 8.45-20.53 20.48-20.53s20.63 9.23 20.63 20.53-8.45 20.67-20.63 20.67-20.48-9.23-20.48-20.67Zm17.05 34.72c9.31 0 19.48-4.55 24.06-13.09v11.57h15.47V69.88h-15.47v11.57c-4.58-8.54-14.75-13.09-24.06-13.09-19.62 0-32.95 15.43-32.95 34.72s13.32 34.72 32.95 34.72ZM692.35 88.07v48.22h15.9v-29.48c0-11.57 3.58-22.32 15.18-22.32 3.44 0 6.45.83 8.02 2.07h.14c.14-4.27 3.87-10.47 7.59-12.81v-.28c-2.58-2.89-7.16-4.68-13.32-4.68-8.74 0-14.9 5.24-18.05 12.4v-11.3h-15.47v18.19ZM750.65 95.23c2.43-8.82 9.02-14.33 18.76-14.33s16.62 5.51 18.91 14.33h-37.67Zm19.91 43.12c14.04 0 26.36-5.92 32.52-19.15v-.28c-4.3.28-10.74-2.62-13.32-6.06l-.14.14c-2.58 6.89-9.45 11.99-18.76 11.99-11.17 0-19.62-7.03-21.06-18.46h53.71c2.58-20.8-11.17-38.58-33.95-38.58-20.2 0-34.81 15.71-34.81 35.13s14.9 35.27 35.81 35.27ZM837.06 138.36c15.76 0 26.5-9.64 26.5-22.18s-10.03-18.05-20.63-20.12l-6.45-1.24c-5.73-1.24-10.03-2.76-10.03-7.16 0-3.86 3.72-7.44 9.6-7.44 6.45 0 11.46 3.17 13.03 9.92h.14c2.72-3.17 9.17-5.65 13.46-5.1l.14-.14c-2.58-9.37-11.89-17.08-26.36-17.08s-25.5 9.37-25.5 20.67c0 10.2 6.88 16.26 20.77 19.15l6.73 1.38c5.3 1.24 9.45 2.89 9.45 7.72s-3.72 8.68-10.74 8.68c-8.59 0-14.75-5.51-15.9-12.4l-.14-.14c-2.72 3.17-9.17 5.51-13.46 4.96l-.14.14c2.58 12.4 14.04 20.39 29.51 20.39Z"
+            ></path>
+          </svg>
+        </a>
+        <nav>
+          <a href="#variants">Variants</a>
+          <a href="#configuration">Configuration</a>
+          <a href="https://github.com/bodom78/betashares-etf-search">GitHub</a>
+        </nav>
+      </div>
+    </header>
 
-  <!-- Variant 1: Search -->
-  <section id="variants">
-    <h2>Variant 1 — Search Trigger</h2>
-    <p class="lead">An input-style button that opens a full-screen dialog. Press <kbd>Ctrl+K</kbd> to open from anywhere on the page.</p>
+    <main>
+      <!-- Hero -->
+      <div class="hero">
+        <h1>Betashares ETF Search Component</h1>
+        <p>A self-contained web component for searching and filtering Betashares ETFs.</p>
+        <div class="badge-row">
+          <a href="https://react.dev"
+            ><img src="https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white" alt="React"
+          /></a>
+          <a href="https://www.typescriptlang.org"
+            ><img
+              src="https://img.shields.io/badge/TypeScript-6-3178c6?logo=typescript&logoColor=white"
+              alt="TypeScript"
+          /></a>
+          <a href="https://tailwindcss.com"
+            ><img
+              src="https://img.shields.io/badge/Tailwind_CSS-v4-06b6d4?logo=tailwindcss&logoColor=white"
+              alt="Tailwind CSS"
+          /></a>
+          <a href="https://vitejs.dev"
+            ><img src="https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white" alt="Vite"
+          /></a>
+          <a href="https://tanstack.com/query"
+            ><img
+              src="https://img.shields.io/badge/TanStack_Query-5-ff4154?logo=reactquery&logoColor=white"
+              alt="TanStack Query"
+          /></a>
+          <a href="https://tanstack.com/router"
+            ><img
+              src="https://img.shields.io/badge/TanStack_Router-1-ff4154?logo=reactquery&logoColor=white"
+              alt="TanStack Router"
+          /></a>
+          <a href="https://ui.shadcn.com"
+            ><img
+              src="https://img.shields.io/badge/shadcn%2Fui-latest-000000?logo=shadcnui&logoColor=white"
+              alt="shadcn/ui"
+          /></a>
+        </div>
+      </div>
 
-    <div class="demo-box">
-      <div class="demo-label">Live demo</div>
-      <betashares-etf-search
-        api-url="https://betashares-search-proxy.betashares.workers.dev"
-      ></betashares-etf-search>
-    </div>
+      <!-- Variant 1: Search -->
+      <section id="variants">
+        <h2>Variant 1 - Search Trigger</h2>
+        <p class="lead">
+          Input-style trigger that opens a dialog. Press Ctrl+K from anywhere or click to activate. Features URL state
+          management for shareability.
+        </p>
 
-    <pre>&lt;betashares-etf-search&gt;&lt;/betashares-etf-search&gt;</pre>
-  </section>
+        <div class="demo-box">
+          <betashares-etf-search
+            api-url="https://betashares-search-proxy.betashares.workers.dev"
+          ></betashares-etf-search>
+        </div>
 
-  <!-- Variant 2: Button -->
-  <section>
-    <h2>Variant 2 — Button Trigger</h2>
-    <p class="lead">A standard button that opens the search dialog. Accepts any style variant and can pre-apply filters on open.</p>
+        <pre><code class="language-html">&lt;betashares-etf-search
+  api-url="https://betashares-search-proxy.betashares.workers.dev"
+&gt;&lt;/betashares-etf-search&gt;</code></pre>
+      </section>
 
-    <div class="demo-box">
-      <div class="demo-label">Default button</div>
-      <betashares-etf-search
-        variant="button"
-        button-text="Search ETFs"
-        api-url="https://betashares-search-proxy.betashares.workers.dev"
-      ></betashares-etf-search>
-    </div>
+      <!-- Variant 2: Button -->
+      <section>
+        <h2>Variant 2 - Button Trigger</h2>
+        <p class="lead">Button trigger that can prefill filters, categories or search terms.</p>
 
-    <div class="demo-box">
-      <div class="demo-label">Outline — pre-filtered to Australian Equities</div>
-      <betashares-etf-search
-        variant="button"
-        button-text="Browse Australian Equities"
-        initial-categories="Australian Equities"
-        api-url="https://betashares-search-proxy.betashares.workers.dev"
-      ></betashares-etf-search>
-    </div>
+        <div class="demo-box">
+          <betashares-etf-search
+            variant="button"
+            button-text="Search ETFs"
+            api-url="https://betashares-search-proxy.betashares.workers.dev"
+          ></betashares-etf-search>
+        </div>
 
-    <div class="demo-box">
-      <div class="demo-label">Pre-sorted by 1Y Return</div>
-      <betashares-etf-search
-        variant="button"
-        button-text="Top Performers"
-        initial-order-by="one_year_return.desc"
-        api-url="https://betashares-search-proxy.betashares.workers.dev"
-      ></betashares-etf-search>
-    </div>
+        <pre><code class="language-html">&lt;betashares-etf-search
+  variant="button"
+  button-text="Search ETFs"
+  api-url="https://betashares-search-proxy.betashares.workers.dev"
+&gt;&lt;/betashares-etf-search&gt;</code></pre>
 
-    <pre>&lt;betashares-etf-search
+        <div class="demo-box">
+          <betashares-etf-search
+            variant="button"
+            button-text="Browse Australian Equities"
+            initial-categories="Australian Equities"
+            auto-focus="false"
+            api-url="https://betashares-search-proxy.betashares.workers.dev"
+          ></betashares-etf-search>
+        </div>
+
+        <pre><code class="language-html">&lt;betashares-etf-search
   variant="button"
   button-text="Browse Australian Equities"
   initial-categories="Australian Equities"
   api-url="https://betashares-search-proxy.betashares.workers.dev"
-&gt;&lt;/betashares-etf-search&gt;</pre>
-  </section>
+&gt;&lt;/betashares-etf-search&gt;</code></pre>
+      </section>
 
-  <!-- Variant 3: Inline -->
-  <section>
-    <h2>Variant 3 — Inline Panel</h2>
-    <p class="lead">Renders the search panel directly in the page flow. No trigger, no overlay — ideal for dedicated search pages.</p>
+      <!-- Variant 3: Inline -->
+      <section>
+        <h2>Variant 3 - Inline Panel</h2>
+        <p class="lead">
+          Renders the search panel directly in the page flow. No trigger, no overlay - ideal for dedicated search pages.
+        </p>
 
-    <div class="demo-box">
-      <div class="demo-label">Live demo — 550px</div>
-      <betashares-etf-search
-        variant="inline"
-        height="550px"
-        api-url="https://betashares-search-proxy.betashares.workers.dev"
-      ></betashares-etf-search>
-    </div>
+        <div class="demo-box">
+          <betashares-etf-search
+            variant="inline"
+            height="550px"
+            api-url="https://betashares-search-proxy.betashares.workers.dev"
+          ></betashares-etf-search>
+        </div>
 
-    <pre>&lt;betashares-etf-search
+        <pre><code class="language-html">&lt;betashares-etf-search
   variant="inline"
   height="550px"
   api-url="https://betashares-search-proxy.betashares.workers.dev"
-&gt;&lt;/betashares-etf-search&gt;</pre>
-  </section>
+&gt;&lt;/betashares-etf-search&gt;</code></pre>
+      </section>
 
-  <!-- Configuration -->
-  <section id="configuration">
-    <h2>Configuration</h2>
-    <p class="lead">All attributes are optional. The component works with zero configuration using sensible defaults.</p>
+      <!-- Configuration -->
+      <section id="configuration">
+        <h2>Configuration</h2>
+        <p class="lead">
+          All attributes are optional. The component works with zero configuration using sensible defaults.
+        </p>
 
-    <table class="config-table">
-      <thead>
-        <tr>
-          <th>Attribute</th>
-          <th>Type</th>
-          <th>Default</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>variant</code></td>
-          <td><code>"search" | "button" | "inline"</code></td>
-          <td><code>"search"</code></td>
-          <td>Controls which surface is rendered.</td>
-        </tr>
-        <tr>
-          <td><code>api-url</code></td>
-          <td><code>string</code></td>
-          <td>Betashares API</td>
-          <td>Override the search endpoint. Required when embedding on external domains (point to a CORS proxy).</td>
-        </tr>
-        <tr>
-          <td><code>initial-query</code></td>
-          <td><code>string</code></td>
-          <td>—</td>
-          <td>Pre-fills the search input when the dialog opens.</td>
-        </tr>
-        <tr>
-          <td><code>initial-categories</code></td>
-          <td><code>string</code></td>
-          <td>—</td>
-          <td>Comma-separated list of asset categories to pre-activate. E.g. <code>"Australian Equities,Cash"</code>.</td>
-        </tr>
-        <tr>
-          <td><code>initial-approach</code></td>
-          <td><code>string</code></td>
-          <td>—</td>
-          <td>Comma-separated management approaches to pre-activate. E.g. <code>"Active"</code>.</td>
-        </tr>
-        <tr>
-          <td><code>initial-order-by</code></td>
-          <td><code>string</code></td>
-          <td>—</td>
-          <td>Pre-selected sort in dot notation. E.g. <code>one_year_return.desc</code>, <code>management_fee.asc</code>, <code>display_name.asc</code>.</td>
-        </tr>
-        <tr>
-          <td><code>placeholder</code></td>
-          <td><code>string</code></td>
-          <td>"Search ETFs…"</td>
-          <td>Custom placeholder text for the search input.</td>
-        </tr>
-        <tr>
-          <td><code>button-text</code></td>
-          <td><code>string</code></td>
-          <td>"Search ETFs"</td>
-          <td>Label for the trigger button. Only applies when <code>variant="button"</code>.</td>
-        </tr>
-        <tr>
-          <td><code>height</code></td>
-          <td><code>string</code></td>
-          <td>"550px"</td>
-          <td>Height of the inline panel. Any valid CSS value. Only applies when <code>variant="inline"</code>.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+        <table class="config-table">
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>variant</code></td>
+              <td><code>"search" | "button" | "inline"</code></td>
+              <td><code>"search"</code></td>
+              <td>Controls which surface is rendered.</td>
+            </tr>
+            <tr>
+              <td><code>api-url</code></td>
+              <td><code>string</code></td>
+              <td>Betashares API</td>
+              <td>
+                Override the search endpoint. Required when embedding on external domains (point to a CORS proxy).
+              </td>
+            </tr>
+            <tr>
+              <td><code>initial-query</code></td>
+              <td><code>string</code></td>
+              <td>-</td>
+              <td>Pre-fills the search input when the dialog opens.</td>
+            </tr>
+            <tr>
+              <td><code>initial-categories</code></td>
+              <td><code>string</code></td>
+              <td>-</td>
+              <td>
+                Comma-separated list of asset categories to pre-activate. E.g. <code>"Australian Equities,Cash"</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><code>initial-approach</code></td>
+              <td><code>string</code></td>
+              <td>-</td>
+              <td>Comma-separated management approaches to pre-activate. E.g. <code>"Active"</code>.</td>
+            </tr>
+            <tr>
+              <td><code>initial-order-by</code></td>
+              <td><code>string</code></td>
+              <td>-</td>
+              <td>
+                Pre-selected sort in dot notation. E.g. <code>one_year_return.desc</code>,
+                <code>management_fee.asc</code>, <code>display_name.asc</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><code>auto-focus</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>
+                Whether to focus the search input when the dialog opens. Set to <code>false</code> when pre-applying
+                filters so results are immediately scrollable.
+              </td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code></td>
+              <td><code>string</code></td>
+              <td>"Search ETFs…"</td>
+              <td>Custom placeholder text for the search input.</td>
+            </tr>
+            <tr>
+              <td><code>button-text</code></td>
+              <td><code>string</code></td>
+              <td>"Search ETFs"</td>
+              <td>Label for the trigger button. Only applies when <code>variant="button"</code>.</td>
+            </tr>
+            <tr>
+              <td><code>height</code></td>
+              <td><code>string</code></td>
+              <td>"550px"</td>
+              <td>Height of the inline panel. Any valid CSS value. Only applies when <code>variant="inline"</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
 
-</main>
+    <footer>
+      Built as a technical assessment for Betashares -
+      <a href="https://github.com/Bodom78/betashares-etf-search">View on GitHub</a>
+    </footer>
 
-<footer>
-  Built as a technical assessment for Betashares &mdash;
-  <a href="https://github.com/Bodom78/betashares-etf-search">View on GitHub</a>
-</footer>
-
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
+  </body>
 </html>
